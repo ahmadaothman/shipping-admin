@@ -44,10 +44,107 @@
                 <div class="pull-left">
                     <h5 class="text-blue">Shipments</h5>
                 </div>
+                <p>
+                    <a class="btn btn-outline-info float-right" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        <i class="icon-copy fa fa-filter" aria-hidden="true"></i> Filters
+                    </a>
+                  
+                </p>
             </div>
-            <div class="row">
-                
+       
+            <div class="collapse mb-4" id="collapseExample" >
+                <div class="card card-body">
+                    <div class="row">
+                        <div class="form-group form-group-sm col-md-2">
+                            <small><label for="filter_reference">Reference</label></small>
+                            <input type="text" class="form-control form-control-sm h-50" id="filter_reference"  placeholder="Reference" value="{{ app('request')->input('filter_reference') }}">
+                        </div>
+                        <div class="form-group form-group-sm col-md-2">
+                            <small><label for="filter_traking_number">Tracking Number</label></small>
+                            <input type="text" class="form-control form-control-sm h-50" id="filter_traking_number"  placeholder="Traking Number" value="{{ app('request')->input('filter_traking_number') }}">
+                        </div>
+                        <div class="form-group form-group-sm col-md-2">
+                            <small><label for="filter_date">Date</label></small>
+                            <input type="text" class="form-control form-control-sm h-50" id="filter_date"  autocomplete="off" placeholder="Date">
+                        </div>
+                        <div class="form-group form-group-sm col-md-2">
+                            <small><label for="filter_agent">Agent</label></small>
+
+                            <select class="form-control form-control-sm h-50 selectpicker" id="filter_agent"  multiple="multiple" data-actions-box="true" data-live-search="true">
+                                @foreach ($agents as $agent)
+                                    @if(in_array($agent->id,explode(",",app('request')->input('filter_agent'))))
+                                    <option value="{{ $agent->id }}" selected>{{ $agent->name }}</option>
+                                    @else
+                                    <option value="{{ $agent->id }}">{{ $agent->name }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group form-group-sm col-md-2">
+                            <small><label for="filter_status_group">Status Group</label></small>
+                            <select class="form-control form-control-sm h-50 selectpicker" id="filter_status_group" multiple="multiple" data-actions-box="true" data-live-search="true">
+                                @foreach ($status_groups as $group)
+                                    @if(in_array($group->id,explode(",",app('request')->input('filter_status_group'))))
+                                    <option value="{{ $group->id }}" selected>{{ $group->name }}</option>
+                                    @else
+                                    <option value="{{ $group->id }}">{{ $group->name }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group form-group-sm col-md-2">
+                            <small><label for="filter_agent">Status</label></small>
+                            <select class="form-control form-control-sm h-50 selectpicker" id="filter_status"  multiple="multiple" data-actions-box="true" data-live-search="true">
+                                @foreach ($status as $status)
+                                @if(in_array($status->id,explode(",",app('request')->input('filter_status'))))
+                                <option value="{{ $status->id }}" selected>{{ $status->name }}</option>
+                                @else
+                                <option value="{{ $status->id }}">{{ $status->name }}</option>
+                                @endif
+                            @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="form-group form-group-sm col-md-2">
+                            <small><label for="filter_name">Name</label></small>
+                            <input type="text" class="form-control form-control-sm h-50" id="filter_name"  placeholder="Customer Name" value="{{ app('request')->input('filter_name') }}">
+                        </div>
+                        <div class="form-group form-group-sm col-md-2">
+                            <small><label for="filter_telephone">Telephone</label></small>
+                            <input type="text" class="form-control form-control-sm h-50" id="filter_telephone" placeholder="Customer Telephone" value="{{ app('request')->input('filter_telephone') }}">
+                        </div>
+                        <div class="form-group form-group-sm col-md-2">
+                            <small><label for="filter_country">Country</label></small>
+                            <select class="form-control form-control-sm h-50 selectpicker" id="filter_country"  >
+                            </select>
+                        </div>
+                        <div class="form-group form-group-sm col-md-2">
+                            <small><label for="filter_state">State</label></small>
+                            <select class="form-control form-control-sm h-50 selectpicker" id="filter_state"  >
+                            </select>
+                        </div>
+                        <div class="form-group form-group-sm col-md-2">
+                            <small><label for="filter_region">Region</label></small>
+                            <select class="form-control form-control-sm h-50 selectpicker" id="filter_region"  >
+                            </select>
+                        </div>
+                        <div class="form-group form-group-sm col-md-2">
+                            <small><label for="filter_city">City</label></small>
+                            <select class="form-control form-control-sm h-50 selectpicker" id="filter_city"  >
+                            </select>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-12 text-right">
+                            <button type="button" class="btn btn-primary btn-sm" onclick="filter()"><i class="icon-copy fa fa-filter" aria-hidden="true"></i> Filter</button>
+                        </div>
+                    </div>
+                </div>
             </div>
+
             <form id="form" method="POST" enctype="multipart/form-data">
                 <table class="table table-sm table-hover table-hover table-striped">
                     <thead>
@@ -77,7 +174,7 @@
                                     <strong><small>{{ $shipment->created_at }}</small></strong>
                                 </td>
                                 <td class="align-middle text-center">
-                                    <div class="text-white text-center p-1  rounded {{ $shipment->Status->StatusGroup->color }}">
+                                    <div class="text-white text-center p-1  rounded {{ $shipment->Status->StatusGroup->color }}" data-toggle="tooltip" data-placement="top" title="{{ $shipment->Status->name }}">
                                         <small>
                                             <strong >{{ $shipment->Status->StatusGroup->name }}</strong>
                                         </small>
@@ -104,7 +201,20 @@
                                 <td class="align-middle">
                                     <small>{{ $shipment->customer_comment }}</small><br/>
                                 </td>
-                                <td></td>
+                                <td class="align-middle">
+                                    <div class="btn-group ">
+                                        <button type="button" class="btn btn-info dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                          A
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                          <a class="dropdown-item" href="{{ route('ShipmentA4Print',['id'=>$shipment->id]) }}" target="_blank"><i class="icon-copy fa fa-print" aria-hidden="true"></i>  Print</a>
+                                          <a class="dropdown-item" href="#"><i class="icon-copy fa fa-list-ul" aria-hidden="true"></i>  View</a>
+                                          <a class="dropdown-item" href="#"><i class="icon-copy fa fa-edit" aria-hidden="true"></i>  Edit</a>
+                                          <div class="dropdown-divider"></div>
+                                          <a class="dropdown-item" href="#"><i class="icon-copy fa fa-minus-square-o" aria-hidden="true"></i>  Cancel</a>
+                                        </div>
+                                    </div>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -113,6 +223,51 @@
         </div>
     </div>
 </div>
+<script type="text/javascript" src="{{ asset('/src/plugins/daterangpicker/js/moment.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/src/plugins/daterangpicker/js/daterangepicker.js') }}"></script>
+<link rel="stylesheet" type="text/css" href="{{ asset('/src/plugins/daterangpicker/css/daterangepicker.css') }}" />
+
+
+<script type="text/javascript">
+    var start = moment("2010-01-01","YYYY-MM-DD").format("YYYY-MM-DD");
+    var end = moment();
+    
+    var filter_date = "{{ app('request')->input('filter_date') }}";
+    
+    if(filter_date != "") {
+
+        var dates = filter_date.split(" - ");
+
+        start = moment(dates[0],"YYYY-MM-DD HH:mm").format("YYYY-MM-DD HH:mm");
+        end = moment(dates[1],"YYYY-MM-DD HH:mm").format("YYYY-MM-DD HH:mm");
+
+    }
+        
+    $('#filter_date').daterangepicker({
+        startDate: start,
+        endDate: end,
+        ranges: {
+            'All time': [moment("2010-01-01","YYYY-MM-DD").format("YYYY-MM-DD"), moment()],
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
+        locale:{
+            format: 'YYYY-MM-DD HH:mm',
+            cancelLabel: 'Clear'
+        }
+	});
+
+    $('#filter_date').on('apply.daterangepicker', function(ev, picker) {
+        $(this).val(picker.startDate.format('YYYY-MM-DD HH:mm:ss') + ' - ' + picker.endDate.format('YYYY-MM-DD HH:mm:ss'));
+    });
+
+    $('#filter_date').on('cancel.daterangepicker', function(ev, picker) {
+        $(this).val('');
+    });
+
+</script>
 <script type="text/javascript">
     function importExcelFile(){
         $('#excelfile').trigger('click');   
@@ -137,5 +292,44 @@
             });
         }
     });
+</script>
+<script type="text/javascript">
+    function filter(){
+        var url = '';
+
+        if($('#filter_reference').val() != '' ){
+            url += '&filter_reference=' + encodeURIComponent($('#filter_reference').val());
+        }
+
+        if($('#filter_traking_number').val() != '' ){
+            url += '&filter_traking_number=' + encodeURIComponent($('#filter_traking_number').val());
+        }
+
+        if($('#filter_date').val() != '' ){
+            url += '&filter_date=' + encodeURIComponent($('#filter_date').val());
+        }
+
+        if($('#filter_agent').val() != '' ){
+            url += '&filter_agent=' + encodeURIComponent($('#filter_agent').val());
+        }
+
+        if($('#filter_status_group').val() != '' ){
+            url += '&filter_status_group=' + encodeURIComponent($('#filter_status_group').val());
+        }
+
+        if($('#filter_status').val() != '' ){
+            url += '&filter_status=' + encodeURIComponent($('#filter_status').val());
+        }
+
+        if($('#filter_name').val() != '' ){
+            url += '&filter_name=' + encodeURIComponent($('#filter_name').val());
+        }
+
+        if($('#filter_telephone').val() != '' ){
+            url += '&filter_telephone=' + encodeURIComponent($('#filter_telephone').val());
+        }
+
+        location.href = "{{ route('shipments',) }}/?" + url
+    }
 </script>
 @endsection

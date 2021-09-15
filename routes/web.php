@@ -48,6 +48,7 @@ Route::get('/shipments/states', [ShipmentController::class, 'states'])->name('sh
 Route::get('/shipments/searchagents', [ShipmentController::class, 'searchAgent'])->name('shipmentSearchAgent');
 Route::post('/shipments/importexcel', [ShipmentController::class, 'importExcel'])->name('importShipmentsExcel');
 Route::post('/shipments/confirmExcel', [ShipmentController::class, 'confirmExcel'])->name('confirmShipmentExcel');
+Route::get('/shipments/a4print', [ShipmentController::class, 'a4Print'])->name('ShipmentA4Print');
 
 Route::get('/shipments/checkReference', [ShipmentController::class, 'checkAgentReferenceStatus'])->name('check_reference');
 

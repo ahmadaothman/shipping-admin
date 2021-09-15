@@ -12,6 +12,8 @@ use App\Models\ServiceType;
 use App\Models\Agent;
 use App\Models\PaymentMethod;
 use App\Models\Shipment;
+use App\Models\ShipmentStatus;
+use App\Models\ShipmentStatusGroup;
 
 
 use App\Imports\ShipmentImport;
@@ -28,10 +30,52 @@ class ShipmentController extends Controller
 
     public function listShipment(Request $request){
         $data = array();
+        $data['agents'] =  Agent::get();
+        $data['status'] =  ShipmentStatus::get();
+        $data['status_groups'] = ShipmentStatusGroup::get();
+
         $shipments = Shipment::orderBy('id');
 
+        
+        if($request->get('filter_reference') != null){
+            $shipments->where('reference','LIKE','%'.$request->get('filter_reference') .'%');
+        }
 
-        $data['shipments'] = $shipments->paginate(15);
+        if($request->get('filter_traking_number') != null){
+            $shipments->where('tracking_number','LIKE','%'.$request->get('filter_traking_number') .'%');
+        }
+
+        if($request->get('filter_date') != null){
+            $datas = explode(" - ", $request->get('filter_date')); 
+
+            $shipments->whereBetween('created_at',array($datas[0],$datas[1]));
+        }
+
+        if($request->get('filter_agent') != null){
+            $shipments->whereIn('agent_id',array(explode(",",$request->get('filter_agent'))));
+        }
+
+        if($request->get('filter_status_group') != null){
+            $statuses = ShipmentStatus::whereIn('shipment_status_group_id',array(explode(",",$request->get('filter_status_group'))))->pluck('id')->toArray();
+            $shipments->whereIn('status_id',$statuses);
+        }
+
+        if($request->get('filter_status') != null){
+            $shipments->whereIn('status_id',array(explode(",",$request->get('filter_status'))));
+        }
+
+        if($request->get('filter_name') != null){
+            $shipments->where('customer_name','LIKE','%'.$request->get('filter_name') .'%');
+        }
+
+        if($request->get('filter_telephone') != null){
+            $shipments->where('customer_telephone','LIKE','%'.$request->get('filter_telephone') .'%');
+        }
+
+
+    
+
+        $data['shipments'] = $shipments->paginate(50);
         
         return view('shipment.shipmentlist',$data);
     }
@@ -146,6 +190,13 @@ class ShipmentController extends Controller
         }
 
         return view('shipment.shipmentform',$data);
+    }
+
+    public function a4print(Request $request){
+        $data = array();
+        $data['shipment'] = Shipment::where('id',$request->get('id'))->first();
+
+        return view('shipment.a4print',$data);
     }
 
     public function states(Request $request)

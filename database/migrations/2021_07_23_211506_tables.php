@@ -81,9 +81,9 @@ class Tables extends Migration
             $table->string('code',3);
             $table->string('left_symbole',10);
             $table->string('right_symbole',10);
-            $table->bigInteger('decimal_number',2);
+            $table->integer('decimal_number',8)->unsigned();
             $table->boolean('default');
-            $table->bigInteger('sort_order');
+            $table->integer('sort_order',8)->unsigned();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
         });
