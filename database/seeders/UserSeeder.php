@@ -349,7 +349,7 @@ class UserSeeder extends Seeder
             [
                 'id'                =>      1,
                 'title'             =>      'Lebanese Pound',
-                'code'              >      'LBP',
+                'code'              =>      'LBP',
                 'left_symbole'      =>      '',
                 'right_symbole'     =>      'L.L',
                 'default'           =>      true,
