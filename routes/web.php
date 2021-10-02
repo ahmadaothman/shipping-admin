@@ -46,6 +46,8 @@ Route::post('/cities/add', [CityController::class, 'form'])->name('addCity');
 Route::get('/cities/edit', [CityController::class, 'form'])->name('editCity');
 Route::post('/cities/edit', [CityController::class, 'form'])->name('editCity');
 Route::post('/cities/remove', [CityController::class, 'remove'])->name('removeCities');
+Route::get('/cities/regions', [CityController::class, 'regionBySate'])->name('regionsBySate');
+
 // Users
 Route::get('/users', [UserController::class, 'userList'])->name('users');
 Route::get('/users/add', [UserController::class, 'userForm'])->name('addUser');
