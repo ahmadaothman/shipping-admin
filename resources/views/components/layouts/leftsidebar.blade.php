@@ -52,10 +52,12 @@
                     </a>
                     <ul class="submenu">
                     
-                        @foreach ($user_types as $item)
-                            <li><a href="/users?user_type_id={{ $item->id }}">{!! $item->user_icon !!} {{ $item->name }}</li>
-                        @endforeach
-                    </ul>
+                        <li><a href="/users?user_type_id=3"><i class="icon-copy fa fa-user-circle-o" aria-hidden="true"></i> Admin</a></li><a href="/users?user_type_id=3">
+                        </a><li><a href="/users?user_type_id=3"></a><a href="/users?user_type_id=4"><i class="icon-copy fa fa-keyboard-o" aria-hidden="true"></i> Data Entry</a></li><a href="/users?user_type_id=4">
+                        </a><li><a href="/users?user_type_id=4"></a><a href="/users?user_type_id=5"><i class="icon-copy fa fa-archive" aria-hidden="true"></i> Ware House</a></li><a href="/users?user_type_id=5">
+                        </a><li><a href="/users?user_type_id=5"></a><a href="/users?user_type_id=6"><i class="icon-copy fa fa-money" aria-hidden="true"></i> Accounting</a></li><a href="/users?user_type_id=6">
+                        </a><li><a href="/users?user_type_id=6"></a><a href="/users?user_type_id=7"><i class="icon-copy fa fa-motorcycle" aria-hidden="true"></i> Driver</a></li><a href="/users?user_type_id=7">
+                </a></ul>
                 </li>
                 <!--Invoices-->
                 <li>
