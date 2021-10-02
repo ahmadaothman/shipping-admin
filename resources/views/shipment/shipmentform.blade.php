@@ -427,7 +427,7 @@
     var state = "";
 
     @if(isset($shipment->customer_country))
-        state = "{{ $shipment->customer_country }}"
+        state = "{{ $shipment->customer_state }}"
     @else
         state = "old('customer_country','')"
     @endif

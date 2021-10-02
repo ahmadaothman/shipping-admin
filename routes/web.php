@@ -5,6 +5,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ShipmentController;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\RegionController;
+use App\Http\Controllers\CityController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\GeoLocationController;
 
@@ -30,6 +32,20 @@ Route::post('/branches/add', [BranchController::class, 'branchForm'])->name('add
 Route::get('/branches/edit', [BranchController::class, 'branchForm'])->name('editBranch');
 Route::post('/branches/edit', [BranchController::class, 'branchForm'])->name('editBranch');
 Route::post('/branches/remove', [BranchController::class, 'remove'])->name('removeBranches');
+// Regions
+Route::get('/regions', [RegionController::class, 'list'])->name('regions');
+Route::get('/regions/add', [RegionController::class, 'form'])->name('addRegion');
+Route::post('/regions/add', [RegionController::class, 'form'])->name('addRegion');
+Route::get('/regions/edit', [RegionController::class, 'form'])->name('editRegion');
+Route::post('/regions/edit', [RegionController::class, 'form'])->name('editRegion');
+Route::post('/regions/remove', [RegionController::class, 'remove'])->name('removeRegions');
+// Cities
+Route::get('/cities', [CityController::class, 'list'])->name('cities');
+Route::get('/cities/add', [CityController::class, 'form'])->name('addCity');
+Route::post('/cities/add', [CityController::class, 'form'])->name('addCity');
+Route::get('/cities/edit', [CityController::class, 'form'])->name('editCity');
+Route::post('/cities/edit', [CityController::class, 'form'])->name('editCity');
+Route::post('/cities/remove', [CityController::class, 'remove'])->name('removeCities');
 // Users
 Route::get('/users', [UserController::class, 'userList'])->name('users');
 Route::get('/users/add', [UserController::class, 'userForm'])->name('addUser');

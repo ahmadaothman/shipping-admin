@@ -27,12 +27,24 @@
                     <i class="icon-copy fa fa-group" aria-hidden="true"></i><span class="mtext">Agents</span>
                 </a>
                 </li>
-                   <!--Branch-->
-                   <li>
+                <!--Branch-->
+                <li>
                     <a href="/branches" class="dropdown-toggle no-arrow">
                         <i class="icon-copy fa fa-map-marker" aria-hidden="true"></i><span class="mtext">Branches</span>
                     </a>
-                    </li>
+                </li>
+                <!--Region-->
+                <li>
+                    <a href="/regions" class="dropdown-toggle no-arrow">
+                        <i class="icon-copy fa fa-map-o" aria-hidden="true"></i><span class="mtext">Regions</span>
+                    </a>
+                </li>
+                   <!--Region-->
+                   <li>
+                    <a href="/cities" class="dropdown-toggle no-arrow">
+                        <i class="icon-copy fa fa-map" aria-hidden="true"></i></i><span class="mtext">Cities</span>
+                    </a>
+                </li>
                 <!--users-->
                 <li class="dropdown">
                     <a href="javascript:;" class="dropdown-toggle">
