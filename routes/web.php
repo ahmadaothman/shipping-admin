@@ -9,6 +9,9 @@ use App\Http\Controllers\RegionController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\GeoLocationController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\SettingController;
+
 
 Route::get('get-address-from-ip',
 [GeoLocationController::class, 'index']);
@@ -71,3 +74,12 @@ Route::get('/shipments/cities', [ShipmentController::class, 'getCitiesByRegion']
 
 Route::get('/shipments/checkReference', [ShipmentController::class, 'checkAgentReferenceStatus'])->name('check_reference');
 
+// invoices
+Route::get('/invoices', [InvoiceController::class, 'list'])->name('invoices');
+Route::get('/invoices/generate', [InvoiceController::class, 'generate'])->name('generate_invoice');
+Route::post('/invoices/generate', [InvoiceController::class, 'generate'])->name('generate_invoice');
+Route::get('/invoice', [InvoiceController::class, 'form'])->name('invoice');
+Route::post('/invoice', [InvoiceController::class, 'form'])->name('invoice');
+// setting
+Route::get('/setting', [SettingController::class, 'index'])->name('setting');
+Route::post('/setting', [SettingController::class, 'index'])->name('setting');

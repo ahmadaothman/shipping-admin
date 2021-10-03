@@ -8,6 +8,7 @@ use PragmaRX\Countries\Package\Countries;
 use App\Models\Agent;
 use App\Models\Currency;
 use App\Models\ShipmentStatus;
+use App\Models\ServiceType;
 
 ini_set('memory_limit','1024M');
 
@@ -49,5 +50,21 @@ class Shipment extends Model
 
     public function getStatusAttribute(){
         return  ShipmentStatus::where('id',$this->status_id)->first();
+    }
+
+    public function getServiceTypeAttribute(){
+        return  ServiceType::where('id',$this->service_type_id)->first();
+    }
+
+    public function getShippingCostAttribute(){
+        return  ServiceType::where('id',$this->service_type_id)->first();
+    }
+
+    public function getWeightFeesAttribute(){
+        return  ServiceType::where('id',$this->service_type_id)->first();
+    }
+
+    public function getServiceFeesAttribute(){
+        return  ServiceType::where('id',$this->service_type_id)->first();
     }
 }

@@ -411,6 +411,16 @@ class UserSeeder extends Seeder
                 'setting'       =>  'cost_per_extra_weight',
                 'value'         =>  20000
             ],
+            [
+                'company_id'    =>  0,
+                'setting'       =>  'pickup_from_customer_cost',
+                'value'         =>  20000
+            ],
+            [
+                'company_id'    =>  0,
+                'setting'       =>  'max_weight',
+                'value'         =>  3
+            ],
         ];
 
         foreach($settings as $data){
