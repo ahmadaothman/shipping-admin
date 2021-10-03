@@ -42,8 +42,8 @@
                 <table class="table table-striped  table-hover  data-table-export table-xs">
                     <thead>
                         <tr>
-                            <th class="table-plus datatable-nosort"><input id="select-all" type="checkbox"/></th>
-                            <th class="table-plus datatable-nosort">ID</th>
+                            <th class="table-plus datatable-nosort text-center"><input id="select-all" type="checkbox"/></th>
+                            <th class="table-plus datatable-nosort text-center">ID</th>
                             <th class="table-plus datatable-nosort">Name</th>
                             <th class="table-plus datatable-nosort">Region</th>
                             <th>Action</th>
@@ -54,9 +54,8 @@
                         @foreach ($cities->items() as $city)
                             <tr>
                                 <td class="text-center align-middle">
-                                    @if ($city['id'] != 1)
                                     <input type="checkbox" name="selected[]" value="{{ $city['id'] }}" />
-                                    @endif
+                               
                                 </td>
                                 <td class="text-center align-middle">
                                     {{ $city['id'] }}
@@ -72,7 +71,7 @@
                               
                               
                                 <td class="text-center align-middle">
-                                    <a href="{{ route('editRegion',['id' => $city['id']]) }}" data-toggle="tooltip" data-placement="top" title="Edit"><i class="icon-copy fa fa-edit" aria-hidden="true"></i> Edit</a>
+                                    <a href="{{ route('editCity',['id' => $city['id']]) }}" data-toggle="tooltip" data-placement="top" title="Edit"><i class="icon-copy fa fa-edit" aria-hidden="true"></i> Edit</a>
                                 </td>
                             </tr>
                         @endforeach

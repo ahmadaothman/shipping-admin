@@ -100,8 +100,8 @@
 <script type="text/javascript">
      var states_select = $('select[name="state"]')
 
-    '@if(isset($region->state))'
-        state = "{{ $region->state }}"
+    '@if(isset($state))'
+        state = "{{ $state }}"
     '@else'
         state = "{{ old('state','') }}"
     '@endif'
@@ -130,9 +130,11 @@
                     if(state == v.extra.woe_name){
                         
                         states_select.val(v.extra.woe_name)
+                        
                     }
                 })
 
+                getRegions(states_select.val())
                 
             }
         })

@@ -192,7 +192,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Preferred Date :</label>
-                                    <input type="text" name="preferred_date" class="form-control date-picker shipment-info" placeholder="Select Date" value="{{ isset($shipment->preferred_date) ? $shipment->preferred_date :  old('preferred_date') }}">
+                                    <input type="date" name="preferred_date" class="form-control shipment-info" placeholder="Select Date" value="{{ isset($shipment->preferred_date) ? $shipment->preferred_date :  old('preferred_date') }}">
                                 </div>
                                
                             </div>

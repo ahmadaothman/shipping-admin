@@ -45,7 +45,7 @@ class BranchController extends Controller
         
         $branches->skip(0)->take(2);
         
-        $data['branches'] = $branches->paginate(15);
+        $data['branches'] = $branches->paginate(30);
 
         $countries = new Countries();
         //dd($countries->all()->toArray());

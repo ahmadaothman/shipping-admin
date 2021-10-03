@@ -55,9 +55,7 @@
                         @foreach ($regions->items() as $region)
                             <tr>
                                 <td class="region-center align-middle">
-                                    @if ($region['id'] != 1)
                                     <input type="checkbox" name="selected[]" value="{{ $region['id'] }}" />
-                                    @endif
                                 </td>
                                 <td class="text-center align-middle">
                                     {{ $region['id'] }}

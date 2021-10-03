@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\City;
 use App\Models\Region;
+
 use PragmaRX\Countries\Package\Countries;
 use Stevebauman\Location\Facades\Location;
 
@@ -24,7 +25,7 @@ class CityController extends Controller
         
         $cities->skip(0)->take(2);
         
-        $data['cities'] = $cities->paginate(15);
+        $data['cities'] = $cities->paginate(100);
         return view("city.cityList",$data);
     }
 
@@ -63,7 +64,7 @@ class CityController extends Controller
                  // inser/edit data
                  $city_data = [
                      'name'             =>  $request->input('name'),
-                     'region'            =>  $request->input('state'),
+                     'region'            =>  $request->input('region'),
                  ];
                  
                 
@@ -89,9 +90,14 @@ class CityController extends Controller
      
              case 'GET':
                  if ($request->has('id')) {
-                     $city = City::where('id',$request->id)->first();
- 
-                     $data['city'] = $city;
+                    $city = City::where('id',$request->id)->first();
+                     
+                    $region = Region::where('name','LIKE','%'.$city->region.'%')->first();
+                  
+                 
+
+                    $data['state'] = isset($region->state) ? $region->state : '';
+                    $data['city'] = $city;
                  }
                  // do anything in 'get request';
                  break;
@@ -114,13 +120,13 @@ class CityController extends Controller
                 $i = $i +1;
             }
         }
+
         return redirect('cities')->with('status', '<strong>Success:</strong> ' . $i . ' Cities Removed!');
 
     }
 
     public function regionBySate(Request $request){
         $regions = Region::where('state',$request->get('state'))->get();
-        dd(Region::where('state',$request->get('state'))->get());
-        return $request;
+        return $regions;
     }
 }

@@ -56,7 +56,7 @@ class UserController extends Controller
         }
 
 
-        $data['users'] = $users->paginate(15);
+        $data['users'] = $users->paginate(50);
 
         return view("user.userlist",$data);
     }

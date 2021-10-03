@@ -39,7 +39,7 @@ class AgentController extends Controller
         }
 
 
-        $data['agents'] = $agents->paginate(15);
+        $data['agents'] = $agents->paginate(30);
 
         return view("agent.agentlist",$data);
     }

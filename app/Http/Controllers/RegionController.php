@@ -23,7 +23,7 @@ class RegionController extends Controller
         
         $regions->skip(0)->take(2);
         
-        $data['regions'] = $regions->paginate(15);
+        $data['regions'] = $regions->paginate(50);
         return view("region.regionList",$data);
     }
 
