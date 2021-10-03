@@ -65,7 +65,7 @@
                                 <div class="form-group">
                                     <label >Gander:</label>
                                     <div class="d-none">
-                                        {{ isset($shipment->customer_gender) ? $gander = $shipment->customer_gender :  $gander = old('customer_gender', 0 ) }}
+                                        {{ isset($shipment->customer_gender) ? $gander = $shipment->customer_gender :  $gander = old('customer_gender' ) }}
                                         
                                     </div>
                                     <select name="customer_gender" class="form-control customer-info">
@@ -73,13 +73,13 @@
                                         @if ($gander == 'm')
                                             <option value="m" selected>M</option>
                                         @else
-                                            <option value="m" >M</option>
+                                            <option value="m">M</option>
                                         @endif
 
                                         @if ($gander == 'f')
                                             <option value="f" selected>F</option>
                                         @else
-                                            <option value="f" >F</option>
+                                            <option value="f">F</option>
                                         @endif
 
                                     </select>
@@ -119,13 +119,17 @@
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label >Region :</label>
-                                    <input type="text" class="form-control customer-info" placeholder="Customer Region" name="customer_region" value="{{ isset($shipment->customer_region) ? $shipment->customer_region :  old('customer_region') }}">
+                                    <select name="customer_region" id="customer_region" class="form-control select-picker  customer-info"  data-size="5" data-live-search="true" >
+                                      
+                                    </select>                                
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label >City :</label>
-                                    <input type="text" class="form-control customer-info" required placeholder="Customer City" name="customer_city" value="{{ isset($shipment->customer_city) ? $shipment->customer_city :  old('customer_city') }}">
+                                    <select name="customer_city" id="customer_city" class="form-control select-picker  customer-info"  data-size="5" data-live-search="true" >
+                                      
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -179,7 +183,7 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label >Agent :</label>
-                                    <input type="text" id="agent_autocomplete" class="form-control shipment-info" required placeholder="Search for agent..." value="{{ isset($shipment->agent_name) ? $shipment->agent_name :  old('agent_name') }}">
+                                    <input type="text" id="agent_autocomplete" class="form-control shipment-info" required placeholder="Search for agent..." value="{{ isset($shipment->Agent->name) ? $shipment->Agent->name :  old('agent_name') }}" autocomplete="off">
                                     <input type="hidden" name="agent_id" value="{{ isset($shipment->agent_id) ? $shipment->agent_id :  old('agent_id') }}" />
                                 </div>
                             </div>
@@ -187,6 +191,9 @@
                                 <div class="form-group">
                                     <label >Shipment Reference :</label>
                                     <input type="text" class="form-control shipment-info" required placeholder="#Ref" name="reference" value="{{ isset($shipment->reference) ? $shipment->reference :  old('reference') }}">
+                                    <input type="hidden" class="form-control " name="tracking_number" value="{{ isset($shipment->tracking_number) ? $shipment->tracking_number :  old('tracking_number') }}">
+                                    <input type="hidden" class="form-control " name="status_id" value="{{ isset($shipment->status_id) ? $shipment->status_id :  old('status_id') }}">
+
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -235,7 +242,7 @@
                                     </div>
                                     <select class="form-control shipment-info" name="service_type_id">
                                        @foreach ($service_types as $service_type)
-                                           @if($service_type->id == $currency_id)
+                                           @if($service_type->id == $service_type_id)
                                             <option value="{{ $service_type->id }}" selected>{{ $service_type->name }}</option>
                                            @else
                                             <option value="{{ $service_type->id }}" >{{ $service_type->name }}</option>
@@ -252,42 +259,20 @@
                     <h5>Builing</h5>
                     <section>
                         <div class="row">
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <div class="form-group">
                                     <label >Weight :</label>
                                     <input type="number" class="form-control" placeholder="00.00 $" name="weight" value="{{ isset($shipment->weight) ? $shipment->weight :  old('weight') }}">
                                 </div>
                             </div>
 
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <div class="form-group">
                                     <label >Amount :</label>
                                     <input type="number" class="form-control" placeholder="00.00 $" name="amount" value="{{ isset($shipment->amount) ? $shipment->amount :  old('amount') }}">
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label >Amount :</label>
-                                    <input type="number" class="form-control" placeholder="00.00 $" name="amount" value="{{ isset($shipment->amount) ? $shipment->amount :  old('amount') }}">
-                                </div>
-                            </div>
-
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label >Shipping Cost :</label>
-                                    <input type="number" class="form-control" placeholder="00.00 $" name="amount" value="{{ isset($shipment->amount) ? $shipment->amount :  old('amount') }}">
-                                </div>
-                            </div>
-
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label >Extre Fees :</label>
-                                    <input type="number" class="form-control" placeholder="00.00 $" name="amount" value="{{ isset($shipment->amount) ? $shipment->amount :  old('amount') }}">
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <div class="form-group">
                                     <label >Payment method :</label>
                                     <div class="d-none">
@@ -305,9 +290,12 @@
                                     </select>
                                 </div>
                             </div>
+                        </div>
 
-                            
+                        <div class="row">
+                          
 
+        
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label >Customer Comment :</label>
@@ -388,8 +376,10 @@
                         valid = false
                     }
                 })
-                
-                $.ajax({
+                var shipment_id = "{{ isset($shipment->id) ? $shipment->id : ''}}"
+
+                if(shipment_id == ""){
+                    $.ajax({
                     url:"{{ route('check_reference') }}",
                     type:'GET',
                     async: false,
@@ -404,7 +394,8 @@
                             $('input[name="reference"]').addClass("is-invalid")
                         }
                     }
-                })
+                    })
+                }
                 return valid
             }else if(currentIndex == 2 && priorIndex == 3){
 
@@ -421,16 +412,25 @@
     });
 </script>
 <script type="text/javascript">
-    var states_select = $('select[name="customer_state"]')
+    var states_select = $('select[name="customer_state"]');
+    var regions_select = $('select[name="customer_region"]');
+    var cities_select = $('select[name="customer_city"]');
 
+    $('select[name="customer_state"]').on('change', function() {
+        getRegions(this.value)
+    });
+
+    $('select[name="customer_region"]').on('change', function() {
+        getCities(this.value)
+    });
 
     var state = "";
 
-    @if(isset($shipment->customer_country))
+    '@if(isset($shipment->customer_country))'
         state = "{{ $shipment->customer_state }}"
-    @else
-        state = "old('customer_country','')"
-    @endif
+    '@else'
+        state = "{{ old('customer_state','') }}"
+    '@endif'
 
     getStates("{{ $country_code }}")
     
@@ -448,10 +448,76 @@
             },
             success:function(data){
                 $.each(data,function(k,v){
-                    if(state == k){
-                        states_select.append(new Option(v.extra.woe_name, k,true))
+                    if(state == v.extra.woe_name){
+                        states_select.append(new Option(v.extra.woe_name, v.extra.woe_name,true))
                     }else{
-                        states_select.append(new Option(v.extra.woe_name, k))
+                        states_select.append(new Option(v.extra.woe_name, v.extra.woe_name))
+                    }
+                  
+                })
+                getRegions(states_select.val())
+                
+            }
+        })
+    }
+
+    var region = "";
+    '@if(isset($shipment->customer_region))'
+        region = "{{ $shipment->customer_region }}"
+    '@else'
+        region = "{{ old('customer_region','') }}"
+    '@endif'
+    function getRegions(state){
+        regions_select.empty()
+
+        $.ajax({
+            url: "{{ route('regionsBySate') }}",
+            type: 'GET',
+            data:{
+                'state':state
+            },
+            success:function(data){
+                $.each(data,function(k,v){
+              
+                    
+                    regions_select.append(new Option(v.name, v.name))
+
+                    if(region == v.name){
+                   
+                        regions_select.val(v.name)
+                    }
+                })
+                getCities(regions_select.val())
+                
+            }
+        })
+    }
+
+    var city = "";
+    '@if(isset($shipment->customer_city))'
+        city = "{{ $shipment->customer_city }}"
+    '@else'
+        city = "{{ old('customer_city','') }}"
+    '@endif'
+
+    function getCities(region){
+        cities_select.empty()
+
+        $.ajax({
+            url: "{{ route('getCitiesByRegion') }}",
+            type: 'GET',
+            data:{
+                'region':region
+            },
+            success:function(data){
+                $.each(data,function(k,v){
+              
+                    
+                    cities_select.append(new Option(v.name, v.name))
+
+                    if(city == v.name){
+                        
+                        cities_select.val(v.name)
                     }
                 })
 
@@ -459,6 +525,8 @@
             }
         })
     }
+
+
 </script>
 <script src="{{ asset('/vendors/scripts/bootstrap3-typeahead.min.js') }}"></script>
 

@@ -14,12 +14,14 @@ use App\Models\PaymentMethod;
 use App\Models\Shipment;
 use App\Models\ShipmentStatus;
 use App\Models\ShipmentStatusGroup;
+use App\Models\City;
 
 
 use App\Imports\ShipmentImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class ShipmentController extends Controller
 {
@@ -87,7 +89,7 @@ class ShipmentController extends Controller
            /* $ip = file_get_contents('https://api.ipify.org');
             $location = Location::get($ip);*/
             
-            $data['country_code'] = '';
+            $data['country_code'] = 'LB';
         }catch(Exception $e){
       
             $data['country_code'] = '';
@@ -158,10 +160,18 @@ class ShipmentController extends Controller
                
                 try { 
                     if($request->path() == 'shipments/add'){
-                        Shipment::insert($shipment_data);
+                        $id = Shipment::insertGetId($shipment_data);
+                        DB::table('shipment_history')->insert([
+                            'user_id'       =>  auth()->id(),
+                            'shipment_id'   =>  $id,
+                            'status_id'     =>  1,
+                            'comment'       =>  'Pending'
+                        ]);
                     }else if($request->path() == 'shipments/edit'){
+                        //dd($shipment_data);
                         Shipment::where('id', $request->get('id'))
                         ->update($shipment_data);
+                    
                     }
                 }catch(\Illuminate\Database\QueryException $ex){
                     dd($ex->getMessage()); 
@@ -181,7 +191,6 @@ class ShipmentController extends Controller
 
                     $data['shipment'] = $shipment;
                 }
-                // do anything in 'get request';
                 break;
     
             default:
@@ -438,6 +447,11 @@ class ShipmentController extends Controller
 
     public function confirmExcel(Request $request){
         $file = $request->input('file_name');
+    }
+
+    public function getCitiesByRegion(Request $request){
+        $cities = City::where('region','LIKE','%'.$request->get('region').'%')->get();
+        return $cities;
     }
 
 }

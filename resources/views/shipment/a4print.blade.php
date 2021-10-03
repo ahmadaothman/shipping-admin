@@ -100,6 +100,15 @@
 	<body>
 		<div class="invoice-box">
 			<table cellpadding="0" cellspacing="0">
+				<tr>
+					<td colspan="2" style="text-align: center">
+						<img src="{{ asset('/src/images/kgsllogo.png') }}" style="max-height: 70px"/> 
+					</td>
+
+				</tr>
+				<tr>
+					<td colspan="2"><hr/></td>
+				</tr>
 				<tr class="top">
 					<td colspan="2">
 						<table>
@@ -122,8 +131,8 @@
 					<td colspan="2">
 						<table>
                             <tr>
+                                <td style="padding-bottom:0px !important;"><strong>Sender Info</strong></td>
                                 <td style="padding-bottom:0px !important;"><strong>Recipient Info</strong></td>
-                                <td style="padding-bottom:0px !important;"><strong>Receiver Info</strong></td>
                             </tr>
 							<tr>
 								<td>
@@ -144,47 +153,21 @@
 					</td>
 				</tr>
 
-				<tr class="heading">
-					<td>Payment Method</td>
-
-					<td>Check #</td>
-				</tr>
-
-				<tr class="details">
-					<td>Check</td>
-
-					<td>1000</td>
-				</tr>
 
 				<tr class="heading">
-					<td>Item</td>
+					<td>Billing</td>
 
-					<td>Price</td>
+					<td></td>
 				</tr>
 
-				<tr class="item">
-					<td>Website design</td>
-
-					<td>$300.00</td>
-				</tr>
-
-				<tr class="item">
-					<td>Hosting (3 months)</td>
-
-					<td>$75.00</td>
-				</tr>
 
 				<tr class="item last">
-					<td>Domain name (1 year)</td>
+					<td>Total</td>
 
-					<td>$10.00</td>
+					<td> {{ $shipment->Currency->left_symbole }} {{ $shipment->FormatedAmount }} {{ $shipment->Currency->right_symbole }}</td>
 				</tr>
 
-				<tr class="total">
-					<td></td>
-
-					<td>Total: $385.00</td>
-				</tr>
+	
 			</table>
             <hr>
             <table style="border: 1px solid #333333;">

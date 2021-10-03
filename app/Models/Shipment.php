@@ -32,8 +32,6 @@ class Shipment extends Model
 
     public function getcountryFlagImojiAttribute()
     {
-
- 
          return Countries::where('cca2', $this->customer_country)->first()->flag->emoji;
     }
 
