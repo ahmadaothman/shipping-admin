@@ -33,7 +33,6 @@
         <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
             <div class="clearfix">
                 <h4 class="text-blue">Shipment Information</h4>
-                <p class="mb-30 font-14">jQuery Step wizard</p>
             </div>
             <div class="wizard-content">
                 <form id="form" class="tab-wizard wizard-circle wizard" action="{{ $action }}" method="POST" >

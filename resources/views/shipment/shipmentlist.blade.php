@@ -151,6 +151,7 @@
                         <tr>
                             <th><input id="select-all" type="checkbox"/></th>
                             <th class="text-center"><small><strong>ID</small></strong></th>
+                            <th class="text-center"><small><strong>Service</small></strong></th>
                             <th class="text-center"><small><strong>Date</small></strong></th>
                             <th class="text-center">Status</th>
                             <th class="text-center"><small><strong>Agent</small></strong></th>
@@ -169,6 +170,15 @@
                                     <small class="text-muted">{{ $shipment->id }}</small><br/>
                                     <small><strong >Ref: {{ $shipment->reference }}</strong></small><br/>
                                     <small>{{ $shipment->tracking_number }}</small>
+                                </td>
+                                <td class="align-middle text-center">
+                                    @if($shipment->service_type_id ==1)
+                                    <small class="text-info"><strong>Normal</strong></small>
+                                    @elseif($shipment->service_type_id ==2)
+                                    <small class="text-warning"><strong>Reverse</strong></small>
+                                    @elseif($shipment->service_type_id ==3)
+                                    <small class="text-success"><strong>Exchange</strong></small>
+                                    @endif
                                 </td>
                                 <td class="align-middle text-center">
                                     <strong><small>{{ $shipment->created_at }}</small></strong>
