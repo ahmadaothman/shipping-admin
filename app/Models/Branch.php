@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use PragmaRX\Countries\Package\Countries;
-ini_set('memory_limit','1024M');
+ini_set('memory_limit','2048M');
 
 class Branch extends Model
 {

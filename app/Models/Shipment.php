@@ -66,5 +66,5 @@ class Shipment extends Model
 
     public function getServiceFeesAttribute(){
         return  ServiceType::where('id',$this->service_type_id)->first();
-    }
+    }///
 }
