@@ -25,7 +25,7 @@
                 <label>Max Weight</label>
             </div>
             <div class="col-md-9">
-                <input type="number" class="form-control" placeholder="Max Weight" value="{{ $max_weight }}"/>
+                <input name="max_weight" type="number" class="form-control" placeholder="Max Weight" value="{{ $max_weight }}"/>
             </div>
             
         </div>
@@ -36,7 +36,7 @@
             </div>
            
             <div class="col-md-9">
-                <input type="number" class="form-control" placeholder="Extra Weight Fees" value="{{ $extra_weight_fees }}"/>
+                <input name="fees_per_extra_weight" type="number" class="form-control" placeholder="Extra Weight Fees" value="{{ $extra_weight_fees }}"/>
             </div>
         </div>
         <br>
@@ -46,7 +46,7 @@
             </div>
            
             <div class="col-md-9">
-                <input type="number" class="form-control" placeholder="Pickup from shipper cost"  value="{{ $pickup_from_customer_cost }}"/>
+                <input name="pickup_from_shipper_cost" type="number" class="form-control" placeholder="Pickup from shipper cost"  value="{{ $pickup_from_customer_cost }}"/>
             </div>
         </div>
         <br>

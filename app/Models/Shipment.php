@@ -9,6 +9,8 @@ use App\Models\Agent;
 use App\Models\Currency;
 use App\Models\ShipmentStatus;
 use App\Models\ServiceType;
+use App\Models\Region;
+use App\Models\Setting;
 
 ini_set('memory_limit','1024M');
 
@@ -57,14 +59,28 @@ class Shipment extends Model
     }
 
     public function getShippingCostAttribute(){
-        return  ServiceType::where('id',$this->service_type_id)->first();
+
+        $region = Region::where('name','LIKE','%'.$this->customer_region.'%')->first();
+
+        if($region){
+            return $region->shipping_cost;
+        }else{
+            return 0;
+        }
     }
 
     public function getWeightFeesAttribute(){
-        return  ServiceType::where('id',$this->service_type_id)->first();
+        $weight_setting = Setting::where('setting','max_weight')->first();
+        if($this->weight > $weight_setting->value){
+            $extra_weight_cost_setting = Setting::where('setting','cost_per_extra_weight')->first();
+            return ((double)$this->weight - (double)$weight_setting->value)*(double)$extra_weight_cost_setting->value;
+        }else{
+            return 0;
+        }
     }
 
     public function getServiceFeesAttribute(){
         return  ServiceType::where('id',$this->service_type_id)->first();
-    }///
+    }
+    
 }

@@ -312,11 +312,81 @@
                             
                         </div>
                     </section>
-                    <!-- Package -->
-                    <h5>Package</h5>
+                    <!-- Overview -->
+                    <h5>Overview</h5>
                     <section>
                         <div class="row">
-                            
+                            <table class="table table-bordered table-sm m-2">
+                                <tr>
+                                    <td class="text-center" colspan="6"><strong>Customer Info</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Customer Name:</td>
+                                    <td id="overview_customer_name"></td>
+                                    <td>Email:</td>
+                                    <td id="overview_email"></td>
+                                    <td>Telephone:</td>
+                                    <td id="overview_telephone"></td>
+                                </tr>
+                                <tr>
+                                    <td>Country:</td>
+                                    <td id="overview_country"></td>
+                                    <td>Region:</td>
+                                    <td id="overview_region"></td>
+                                    <td>City:</td>
+                                    <td id="overview_city"></td>
+                                </tr>
+                                <tr>
+                                    <td>Zip Code:</td>
+                                    <td id="overview_zip_code"></td>
+                                    <td>Building:</td>
+                                    <td id="overview_building"></td>
+                                    <td>Floor:</td>
+                                    <td id="overview_floor"></td>
+                                </tr>
+                                <tr>
+                                    <td>Directions</td>
+                                    <td colspan="5" id="overview_directions"></td>
+                                </tr>
+                            </table>
+                            <table class="table table-bordered table-sm m-2">
+                                <tr>
+                                    <td class="text-center" colspan="4"><strong>Shipment Info</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Agent:</td>
+                                    <td id="overview_agent"></td>
+                                    <td>Reference:</td>
+                                    <td id="overview_ref"></td>
+                                </tr>
+                                <tr>
+                                    <td>Currency:</td>
+                                    <td id="overview_currency"></td>
+                                    <td>Service Type:</td>
+                                    <td id="overview_service_type"></td>
+                                </tr>
+                            </table>
+                            <table class="table table-bordered table-sm m-2">
+                                <tr>
+                                    <td class="text-center" colspan="6"><strong>Builing</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Weight:</td>
+                                    <td id="overview_weight"></td>
+                                    <td>Amount:</td>
+                                    <td id="overview_amount"></td>
+                                    <td>Payment Method:</td>
+                                    <td id="overview_payment_method"></td>
+                                </tr>
+                                <tr>
+                                    <td>Customer Comment</td>
+                                    <td colspan="5" id="overview_customer_comment"></td>
+                                </tr>
+                                <tr>
+                                    <td>Shipper Comment</td>
+                                    <td colspan="5" id="overview_shipper_comment"></td>
+                                </tr>
+                            </table>
                         </div>
                     </section>
                 </form>
@@ -397,7 +467,25 @@
                 }
                 return valid
             }else if(currentIndex == 2 && priorIndex == 3){
-
+                $('#overview_customer_name').html($('input[name="customer_name"]').val());
+                $('#overview_email').html($('input[name="customer_email"]').val());
+                $('#overview_telephone').html($('input[name="customer_telephone"]').val());
+                $('#overview_country').html($('select[name="customer_country"] option:selected').text());
+                $('#overview_region').html($('select[name="customer_state"] option:selected').text() + ' - ' + $('select[name="customer_region"] option:selected').text());
+                $('#overview_city').html($('select[name="customer_city"] option:selected').text());
+                $('#overview_zip_code').html($('input[name="zip_code"]').val());
+                $('#overview_building').html($('input[name="customer_building"]').val());
+                $('#overview_floor').html($('input[name="customer_floor"]').val());
+                $('#overview_directions').html($('input[name="customer_directions"]').val());
+                $('#overview_agent').html($('#agent_autocomplete').val());
+                $('#overview_ref').html($('input[name="reference"]').val());
+                $('#overview_currency').html($('select[name="currency_id"] option:selected').text());
+                $('#overview_service_type').html($('select[name="service_type_id"] option:selected').text());
+                $('#overview_weight').html($('input[name="weight"]').val());
+                $('#overview_amount').html($('input[name="amount"]').val());
+                $('#overview_payment_method').html($('select[name="payment_method_id"] option:selected').text());
+                $('#overview_customer_comment').html($('input[name="customer_comment"]').val());
+                $('#overview_shipper_comment').html($('input[name="agent_comment"]').val());
             }
 
             return true;

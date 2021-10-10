@@ -27,8 +27,8 @@
             <div class="col-md-4">
                 <div class="form-group">
                     
-                    <input type="text" class="form-control" placeholder="Search Agents" id="agent" name="agent" value="{{ $agent ? $agent : old('agent') }}" autocomplete="off"/>
-                    <input type="hidden" class="form-control"  id="agent_id" name="agent_id" value="{{ $agent_id ? $agent_id : old('agent_id') }}"/>
+                    <input type="text" class="form-control" placeholder="Search Agents" id="agent" name="agent" value="{{ isset($agent) ? $agent : old('agent') }}" autocomplete="off"/>
+                    <input type="hidden" class="form-control"  id="agent_id" name="agent_id" value="{{ isset($agent_id) ? $agent_id : old('agent_id') }}"/>
 
                 </div>
             
@@ -72,15 +72,16 @@
                             <span>{{ $shipment->customer_name }}</span><br>
                             <small>{{ $shipment->customer_telephone }}</small>
                         </td>
-                        <td class="align-middle">{{ $shipment->Currency->left_symbole }} {{ $shipment->FormatedAmount }} {{ $shipment->Currency->right_symbole }}</td>
                         <td class="align-middle text-center">
                             {{ $shipment->weight }}
                         </td>
+                        <td class="align-middle">{{ $shipment->Currency->left_symbole }} {{ $shipment->FormatedAmount }} {{ $shipment->Currency->right_symbole }}</td>
+                    
                         <td class="align-middle">
-                            <input class="form-control" type="number" value="0"/>
+                            <input class="form-control" type="number" value="{{ $shipment->ShippingCost }}"/>
                         </td>
                         <td class="align-middle">
-                            <input class="form-control" type="number" value="0"/>
+                            <input class="form-control" type="number" value="{{ $shipment->WeightFees }}"/>
                         </td>
                         <td class="align-middle">
                             <input class="form-control" type="number" value="0"/>
