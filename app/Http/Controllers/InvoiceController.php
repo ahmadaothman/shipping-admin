@@ -58,7 +58,7 @@ class InvoiceController extends Controller
             $data['agent'] = $agent->name;
             $data['agent_id'] = $agent->id;
 
-            $shipments = Shipment::where('agent_id',$request->get('agent_id'))->get();
+            $shipments = Shipment::where('agent_id',$request->get('agent_id'))->where('status_id','<',19)->get();
 
             $data['shipments'] = $shipments;
 
@@ -115,7 +115,60 @@ class InvoiceController extends Controller
     }
 
     public function form(Request $request){
+        $data = array();
 
+        $invoice = Invoice::where('id',$request->get('id'))->first();
+        $shipments = InvoiceShipments::where('invoice_id',$request->get('id'))->get();
+        
+        $data['shipments'] = $shipments;
+        $data['invoice'] = $invoice;
+
+        if($request->method() == 'POST'){
+            if($request->input('selected')){
+                $shipping_costs = $request->input('shipments')['shipping_cost'];
+                $weight_fees = $request->input('shipments')['weight_fees'];
+                $service_fees = $request->input('shipments')['service_fees'];
+                $comments = $request->input('shipments')['comment'];
+
+                $total = 0;
+                foreach($request->input('selected') as $id){
+                    $total = $total + ($shipping_costs[$id] + $weight_fees[$id] + $service_fees[$id]);
+                }
+
+
+                $invoice_id = $request->input('invoice_id');
+
+                Invoice::where('id',$invoice_id)->update(['total'=>$total,'comment'=>$request->input('comment')]);
+
+                InvoiceShipments::where('invoice_id', $invoice_id)->delete();
+
+                foreach($request->input('selected') as $id){
+                    $shipment = Shipment::where('id',$id)->first();
+    
+                    InvoiceShipments::insert([
+                        'invoice_id'            =>  $invoice_id,
+                        'shipment_id'           =>  $id,
+                        'total'                 =>  $shipment->amount,
+                        'shipping_cost'         =>  $shipping_costs[$id],
+                        'weight_fees'           =>  $weight_fees[$id],
+                        'service_fees'          =>  $service_fees[$id],
+                        'due_amount'            =>  0,
+                        'comment'               =>  $comments[$id] ? $comments[$id] : '',
+    
+                    ]);
+    
+                    Shipment::where('id',$id)->update(['status_id'=>19]);
+                }
+             
+                return redirect('invoices')->with('status', 'Success: invoice info updated!');
+            }else{
+                $data['error'] = 'Please select one shipment at least!';
+            }
+
+          
+        }
+
+        return view('invoice.form',$data);
     }
 
     public function print(Request $request){
@@ -144,4 +197,46 @@ class InvoiceController extends Controller
         $data['due_amount'] = number_format($data['due_amount'],0) . ' L.L';
         return view('invoice.print',$data);
     }
+
+    public function pay(Request $request){
+        $data = array();
+
+        $invoice = Invoice::where('id',$request->get('id'))->first();
+        $shipments = InvoiceShipments::where('invoice_id',$request->get('id'))->get();
+
+        Invoice::where('id',$request->get('id'))->update(['status_id'=>2]);
+
+        foreach($shipments as $shipment){
+            Shipment::where('id',$shipment->Shipment->id)->update(['status_id'=>21]);
+            DB::table('shipment_history')->insert([
+                'user_id'       =>  Auth::id(),
+                'shipment_id'   =>  $shipment->Shipment->id,
+                'status_id'     =>  21,
+                'comment'       =>  'Paid'
+            ]);
+        }
+
+    }
+    
+    public function cancel(Request $request){
+        $data = array();
+
+        $invoice = Invoice::where('id',$request->get('id'))->first();
+        $shipments = InvoiceShipments::where('invoice_id',$request->get('id'))->get();
+
+        Invoice::where('id',$request->get('id'))->update(['status_id'=>3]);
+
+        foreach($shipments as $shipment){
+            Shipment::where('id',$shipment->Shipment->id)->update(['status_id'=>17]);
+            DB::table('shipment_history')->insert([
+                'user_id'       =>  Auth::id(),
+                'shipment_id'   =>  $shipment->Shipment->id,
+                'status_id'     =>  17,
+                'comment'       =>  'Invoice Cancelled'
+            ]);
+        }
+
+    }
+    
+
 }

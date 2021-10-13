@@ -47,8 +47,10 @@
 
                             @if($invoice->status_id == 1)
                             <td class="text-danger text-center"><strong>Unpaid</strong></td>
-                            @else
+                            @elseif($invoice->status_id == 2)
                             <td class="text-success text-center"><strong>Paid</strong></td>
+                            @elseif($invoice->status_id == 3)
+                            <td class="text-secondary text-center"><strong>Cancelled</strong></td>
                             @endif
 
                             <td class="text-center">{{ $invoice->TotalShipments }}</td>

@@ -81,6 +81,8 @@ Route::post('/invoices/generate', [InvoiceController::class, 'generate'])->name(
 Route::get('/invoice', [InvoiceController::class, 'form'])->name('invoice');
 Route::post('/invoice', [InvoiceController::class, 'form'])->name('invoice');
 Route::get('/invoice/print', [InvoiceController::class, 'print'])->name('printInvoice');
+Route::get('/invoice/pay', [InvoiceController::class, 'pay'])->name('payInvoice');
+Route::get('/invoice/cancel', [InvoiceController::class, 'cancel'])->name('cancelInvoice');
 
 // setting
 Route::get('/setting', [SettingController::class, 'index'])->name('setting');
