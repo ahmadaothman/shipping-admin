@@ -19,6 +19,11 @@
         </div>
     </div>
     <form method="POST" enctype="multipart/form-data">
+        @if(isset($error))
+        <div class="alert alert-danger" role="alert">
+            {{ $error }}
+          </div>
+        @endif
         @csrf
         <div class="row bg-white bordered m-1 p-4">
             <div class="col-md-1">
@@ -34,31 +39,33 @@
             
             </div>
             <div class="col-md-3">
-                <button type="submit" class="btn btn-primary">Get Shipments</button>
+                <a type="submit" class="btn btn-primary text-white" onclick="getShipments()">Get Shipments</a>
             </div>
         </div>
         <table class="table table-sm table-striped table-hover bg-white m-1 mb-20" style="margin-bottom: 30px">
             @if($shipments)
                 <thead>
                     <tr>
-                        <th><input type="checkbox" /></th>
-                        <th>ID</th>
-                        <th>Tracking Number</th>
-                        <th>Service</th>
-                        <th>Zone</th>
-                        <th>Customer</th>
-                        <th class="text-center">Weight</th>
-                        <th>Amount</th>
-                        <th>Shipping Cost</th>
-                        <th>Weight Fees</th>
-                        <th>Service Fees</th>
+                        <th><input id="checkAll" type="checkbox" /></th>
+                        <th><small>ID</small></th>
+                        <th><small>Tracking</small></th>
+                        <th><small>Service</small></th>
+                        <th><small>Zone</small></th>
+                        <th><small>Customer</small></th>
+                        <th class="text-center"><small>Weight</small></th>
+                        <th><small>Amount</small></th>
+                        <th><small>Shipping Cost</small></th>
+                        <th><small>Weight Fees</small></th>
+                        <th><small>Service Fees</small></th>
+                        <th><small>Comment</small></th>
                     </tr>
                 </thead>
             @endif
             <tbody>
                 @foreach ($shipments as $shipment)
                     <tr>
-                        <td class="align-middle"><input type="checkbox" name="selected[]" /></td>
+                        <td class="align-middle"><input  type="checkbox" name="selected[]" value="{{ $shipment->id }}"/></td>
+
                         <td class="align-middle">{{ $shipment->id }}</td>
                         <td class="align-middle">{{ $shipment->tracking_number }}</td>
                         <td class="align-middle">{{ $shipment->ServiceType->name }}</td>
@@ -78,13 +85,17 @@
                         <td class="align-middle">{{ $shipment->Currency->left_symbole }} {{ $shipment->FormatedAmount }} {{ $shipment->Currency->right_symbole }}</td>
                     
                         <td class="align-middle">
-                            <input class="form-control" type="number" value="{{ $shipment->ShippingCost }}"/>
+                            <input class="form-control" name="shipments[shipping_cost][{{ $shipment->id }}]" type="number" value="{{ $shipment->ShippingCost }}"/>
                         </td>
                         <td class="align-middle">
-                            <input class="form-control" type="number" value="{{ $shipment->WeightFees }}"/>
+                            <input class="form-control" name="shipments[weight_fees][{{ $shipment->id }}]" type="number" value="{{ $shipment->WeightFees }}"/>
                         </td>
                         <td class="align-middle">
-                            <input class="form-control" type="number" value="0"/>
+                            <input class="form-control" name="shipments[service_fees][{{ $shipment->id }}]" type="number" value="{{ $shipment->ServiceFees }}"/>
+                        </td>
+
+                        <td class="align-middle">
+                            <input class="form-control" name="shipments[comment][{{ $shipment->id }}]" type="text" placeholder="Comment"/>
                         </td>
                     </tr>
                 @endforeach
@@ -92,8 +103,10 @@
             @if($shipments)
             <tfoot>
                 <tr >
-                    <td colspan="10"></td>
-                    <td style="padding: 30px"><button type="submit" class="btn btn-success w-100">Generate Invoice</button></td>
+                    <td colspan="11" class="align-middle">
+                        <input type="text" placeholder="Invoice Comment" name="comment" class="form-control"/>
+                    </td>
+                    <td><button type="submit" class="btn btn-success w-100">Generate Invoice</button></td>
                 </tr>
             </tfoot>
             @endif
@@ -129,6 +142,25 @@
             }
 
         });
+
+function getShipments(){
+    location.href = "/invoices/generate?agent_id="+$('#agent_id').val();
+}
        
+
+
+$('#checkAll').click(function(event) {   
+    if(this.checked) {
+        // Iterate each checkbox
+        $(':checkbox').each(function() {
+            this.checked = true;                        
+        });
+    } else {
+        $(':checkbox').each(function() {
+            this.checked = false;                       
+        });
+    }
+});
+
 </script>
 @endsection

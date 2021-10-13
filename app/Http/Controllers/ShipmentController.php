@@ -117,7 +117,7 @@ class ShipmentController extends Controller
 
                 
                 if($request->path() == 'shipments/add'){
-                    $traking_number = Shipment::max('id') + random_int(10, 100);
+                    $traking_number =  random_int(1111111111,9999999999) . (Shipment::max('id')+1);
                     $status_id = 1;
                 }else if($request->path() == 'shipments/edit'){
                     $traking_number = $request->input('tracking_number');
@@ -132,6 +132,7 @@ class ShipmentController extends Controller
                     'status_id'                 =>  $status_id ,
                     'currency_id'               =>  $request->input('currency_id'),
                     'service_type_id'           =>  $request->input('service_type_id'),
+                    'pickup_type'               =>  $request->input('pickup_type'),
                     'preferred_date'            =>  $request->input('preferred_date'),
                     'preferred_time_from'       =>  date("G:i", strtotime($request->input('preferred_time_from'))),
                     'preferred_time_to'         =>  date("G:i", strtotime($request->input('preferred_time_to'))),

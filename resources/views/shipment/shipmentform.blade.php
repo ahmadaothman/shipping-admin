@@ -232,7 +232,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-3">
                                 <div class="form-group shipment-info">
                                     <label>Service Type :</label>
                                     <div class="d-none">
@@ -247,6 +247,28 @@
                                             <option value="{{ $service_type->id }}" >{{ $service_type->name }}</option>
                                            @endif
                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group shipment-info">
+                                    <label>Pickup type:</label>
+                                    <div class="d-none">
+                                        {{ isset($shipment->pickup_type) ? $pickup_type = $shipment->pickup_type :  $pickup_type = old('pickup_type') }}
+                                    </div>
+                                    <select class="form-control shipment-info" name="pickup_type">
+                                        @if($pickup_type == 'normal'){
+                                            <option value="normal" selected>Normal</option>
+                                        @else
+                                            <option value="normal">Normal</option>
+                                        @endif
+
+                                        @if($pickup_type == 'pickup_from_shipper'){
+                                            <option value="pickup_from_shipper" selected>Pickup From Shipper</option>
+                                        @else
+                                            <option value="pickup_from_shipper">Pickup From Shipper</option>
+                                        @endif
+
                                     </select>
                                 </div>
                             </div>

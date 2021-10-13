@@ -114,9 +114,9 @@
 						<table>
 							<tr>
                                 <td>
-									Tracking Number : {{ $shipment->traking_number }}<br />
+									Tracking Number : <strong>{{ $shipment->tracking_number }}</strong><br />
 									Created: {{ $shipment->created_at }}<br />
-							
+									Ref: <strong>{{ $shipment->reference }}</strong>
 								</td>
 
 								<td class="title">
@@ -180,7 +180,7 @@
             </table>
 		</div>
         <script type="text/javascript">
-            $('#qrcode').qrcode({width: 90,height: 90,text: "Hello Word!"});
+            $('#qrcode').qrcode({width: 90,height: 90,text: "{{ $shipment->tracking_number }}"});
 
         </script>
 	</body>

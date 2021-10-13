@@ -80,7 +80,13 @@ class Shipment extends Model
     }
 
     public function getServiceFeesAttribute(){
-        return  ServiceType::where('id',$this->service_type_id)->first();
+        $pickpu_cost = Setting::where('setting','pickup_from_customer_cost')->first();
+
+        if($this->pickup_type == 'pickup_from_shipper'){
+            return $pickpu_cost->value;
+        }else{
+            return 0;
+        }
     }
-    
+
 }
