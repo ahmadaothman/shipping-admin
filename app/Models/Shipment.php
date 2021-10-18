@@ -11,6 +11,7 @@ use App\Models\ShipmentStatus;
 use App\Models\ServiceType;
 use App\Models\Region;
 use App\Models\Setting;
+use App\Models\User;
 
 ini_set('memory_limit','1024M');
 
@@ -56,6 +57,15 @@ class Shipment extends Model
 
     public function getServiceTypeAttribute(){
         return  ServiceType::where('id',$this->service_type_id)->first();
+    }
+
+    public function getDriverAttribute(){
+        $driver = User::where('id',$this->driver_id)->first();
+        if($driver){
+            return $driver;
+        }else{
+            return false;
+        }
     }
 
     public function getShippingCostAttribute(){

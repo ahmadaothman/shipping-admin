@@ -15,7 +15,7 @@ use App\Models\Shipment;
 use App\Models\ShipmentStatus;
 use App\Models\ShipmentStatusGroup;
 use App\Models\City;
-
+use App\Models\User;
 
 use App\Imports\ShipmentImport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -31,12 +31,35 @@ class ShipmentController extends Controller
     }
 
     public function listShipment(Request $request){
+
         $data = array();
+        if($request->method() == "POST"){
+           if($request->input('selected') != null){
+            foreach($request->input('selected') as $id){
+                Shipment::where('id',$id)->update([
+                    'status_id'     =>  $request->input('shipment_status'),
+                    'driver_id'        =>  $request->input('drivers'),
+                    'updated_at'     =>  date("Y-m-d H:i:s")
+                ]);
+            }
+           }
+        }
+
         $data['agents'] =  Agent::get();
         $data['status'] =  ShipmentStatus::get();
         $data['status_groups'] = ShipmentStatusGroup::get();
+        $data['shipment_status'] = DB::table('shipment_status')
+        ->whereIn('id',[1,5,6,8,9,10,11,12,16,17,25,26,27])
+        ->get();
 
-        $shipments = Shipment::orderBy('id');
+
+        $data['drivers'] = User::where('user_type_id',7)->where('status',1)->get();
+
+        $countries = new Countries();
+
+        $data['countries'] = $countries->all()->toArray();
+
+        $shipments = Shipment::orderBy('id','DESC');
 
         
         if($request->get('filter_reference') != null){
@@ -54,16 +77,16 @@ class ShipmentController extends Controller
         }
 
         if($request->get('filter_agent') != null){
-            $shipments->whereIn('agent_id',array(explode(",",$request->get('filter_agent'))));
+            $shipments->whereIn('agent_id',explode(",",$request->get('filter_agent')));
         }
 
         if($request->get('filter_status_group') != null){
-            $statuses = ShipmentStatus::whereIn('shipment_status_group_id',array(explode(",",$request->get('filter_status_group'))))->pluck('id')->toArray();
+            $statuses = ShipmentStatus::whereIn('shipment_status_group_id',explode(",",$request->get('filter_status_group')))->pluck('id')->toArray();
             $shipments->whereIn('status_id',$statuses);
         }
 
         if($request->get('filter_status') != null){
-            $shipments->whereIn('status_id',array(explode(",",$request->get('filter_status'))));
+            $shipments->whereIn('status_id',explode(",",$request->get('filter_status')));
         }
 
         if($request->get('filter_name') != null){
@@ -75,9 +98,41 @@ class ShipmentController extends Controller
         }
 
 
+        if($request->get('filter_country') != null){
+            $shipments->where('customer_country','LIKE','%'.$request->get('filter_country') .'%');
+        }
+
+        if($request->get('filter_state') != null){
+            $shipments->where('customer_state','LIKE','%'.$request->get('filter_state') .'%');
+        }
+
+        if($request->get('filter_region') != null){
+            $shipments->whereIn('customer_region',explode(",",$request->get('filter_region')));
+        }
+
+        if($request->get('filter_city') != null){
+            $shipments->whereIn('customer_city',explode(",",$request->get('filter_city')));
+        }
+    
+        if($request->get('filter_pickup_type') != null){
+            $shipments->where('pickup_type','LIKE','%'.$request->get('filter_pickup_type') .'%');
+        }
+
+        if($request->get('filter_driver') != null){
+            $shipments->where('driver_id','LIKE','%'.$request->get('filter_driver') .'%');
+        }
     
 
+      
+
         $data['shipments'] = $shipments->paginate(50);
+        if($request->get('manifest') != null){
+            $arr = array();
+
+            $arr['shipments'] = $data['shipments'];
+
+            return view('shipment.manifest',$data);
+        }
         
         return view('shipment.shipmentlist',$data);
     }
@@ -105,9 +160,11 @@ class ShipmentController extends Controller
         $data['countries'] = $countries->all()->toArray();
 
         if($request->path() == 'shipments/add'){
-            $data['action'] = route('addShipment');
+            $data['action'] = route('addShipment',$request->all());
+            $data['id'] = "";
         }else if($request->path() == 'shipments/edit'){
-            $data['action'] = route('editShipment',['id'=>$request->get('id')]);
+            $data['action'] = route('editShipment', array_merge($request->all(),['id'=>$request->get('id')]) );
+            $data['id'] = $request->get('id');
         }
 
         switch ($request->method()) {
@@ -179,9 +236,9 @@ class ShipmentController extends Controller
                 }
                
                 if($request->path() == 'shipments/add'){
-                    return redirect('shipments')->with('status', '<strong>Success:</strong> New Shipment added!');
+                    return redirect(route('shipments',$request->all()))->with('status', '<strong>Success:</strong> New Shipment added!');
                 }else{
-                    return redirect('shipments')->with('status', '<strong>Success:</strong> Shipment info updated!');
+                    return redirect(route('shipments',$request->all()))->with('status', '<strong>Success:</strong> Shipment info updated!');
                 }
 
                 break;
@@ -453,6 +510,19 @@ class ShipmentController extends Controller
     public function getCitiesByRegion(Request $request){
         $cities = City::where('region','LIKE','%'.$request->get('region').'%')->get();
         return $cities;
+    }
+
+    public function cancel(Request $request){
+       // dd($request->input('shipment_id'));
+        Shipment::where('id',$request->input('shipment_id'))->update(['status_id'=>16]);
+
+        DB::table('shipment_history')->insert([
+            'user_id'       =>  Auth::id(),
+            'shipment_id'   =>  $request->input('shipment_id'),
+            'status_id'     =>  16,
+            'comment'       =>  'Shipment Cancelled' 
+        ]);
+
     }
 
 }

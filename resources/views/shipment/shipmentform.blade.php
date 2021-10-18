@@ -17,15 +17,18 @@
                     </nav>
                 </div>
                 <div class="col-md-6 col-sm-12 text-right">
+                    @if(!empty($id))
                     <div class="dropdown">
                         <a class="btn btn-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-                            January 2018
+                            Actions
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#">Export List</a>
-                  
+                            <a class="dropdown-item" href="{{ route('ShipmentA4Print',['id'=>$id]) }}" target="_blank"><i class="icon-copy fa fa-print" aria-hidden="true"></i> Print</a>
+                            
+                            <a class="dropdown-item" data-toggle="modal" data-target="#cancel_modal"><i class="icon-copy fa fa-trash" aria-hidden="true"></i> Cancel Shipment</a>
                         </div>
                     </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -91,7 +94,6 @@
                                     <label>Country :</label>
                                     <div class="d-none">
                                         {{ isset($shipment->customer_country) ? $country = $shipment->customer_country :  $country = old('customer_country', $country_code ) }}
-                                        
                                     </div>
                                     <select name="customer_country" id="customer_country" class="form-control select-picker  customer-info"  data-size="5" data-live-search="true" >
                                         @foreach ($countries as $key => $value)
@@ -432,6 +434,34 @@
             </div>
         </div>
         <!-- success Popup html End -->
+
+        <!-- cancel shipment form -->
+        <form id="cancel_form"  action="{{ route('cancelShipment') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <input name="shipment_id" type="hidden" value="{{ $id }}" />
+        </form>
+
+        <!-- Confirm cancel modal -->
+        <div class="modal fade" id="cancel_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cancel Shipment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                 Are you sure cancel this shipment?
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-danger" onclick="$('#cancel_form').submit()">Yes</button>
+                </div>
+            </div>
+            </div>
+        </div>
+
     </div>
 </div>
 <script src="{{ asset('/src/plugins/jquery-steps/build/jquery.steps.js') }}"></script>
@@ -576,6 +606,7 @@
     '@else'
         region = "{{ old('customer_region','') }}"
     '@endif'
+
     function getRegions(state){
         regions_select.empty()
 

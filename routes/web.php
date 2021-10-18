@@ -60,6 +60,8 @@ Route::post('/users/edit', [UserController::class, 'userForm'])->name('editUser'
 Route::post('/users/remove', [UserController::class, 'remove'])->name('removeUsers');
 // Shipments
 Route::get('/shipments', [ShipmentController::class, 'listShipment'])->name('shipments');
+Route::post('/shipments', [ShipmentController::class, 'listShipment'])->name('shipments');
+
 Route::get('/shipments/add', [ShipmentController::class, 'ShipmentForm'])->name('addShipment');
 Route::post('/shipments/add', [ShipmentController::class, 'ShipmentForm'])->name('addShipment');
 Route::get('/shipments/edit', [ShipmentController::class, 'ShipmentForm'])->name('editShipment');
@@ -71,8 +73,9 @@ Route::post('/shipments/importexcel', [ShipmentController::class, 'importExcel']
 Route::post('/shipments/confirmExcel', [ShipmentController::class, 'confirmExcel'])->name('confirmShipmentExcel');
 Route::get('/shipments/a4print', [ShipmentController::class, 'a4Print'])->name('ShipmentA4Print');
 Route::get('/shipments/cities', [ShipmentController::class, 'getCitiesByRegion'])->name('getCitiesByRegion');
-
 Route::get('/shipments/checkReference', [ShipmentController::class, 'checkAgentReferenceStatus'])->name('check_reference');
+
+Route::post('/shipments/cancel', [ShipmentController::class, 'cancel'])->name('cancelShipment');
 
 // invoices
 Route::get('/invoices', [InvoiceController::class, 'list'])->name('invoices');
