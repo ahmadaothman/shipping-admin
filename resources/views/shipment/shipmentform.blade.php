@@ -191,7 +191,7 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label >Shipment Reference :</label>
-                                    <input type="text" class="form-control shipment-info" required placeholder="#Ref" name="reference" value="{{ isset($shipment->reference) ? $shipment->reference :  old('reference') }}">
+                                    <input type="text" class="form-control shipment-info"  placeholder="#Ref" name="reference" value="{{ isset($shipment->reference) ? $shipment->reference :  old('reference') }}">
                                     <input type="hidden" class="form-control " name="tracking_number" value="{{ isset($shipment->tracking_number) ? $shipment->tracking_number :  old('tracking_number') }}">
                                     <input type="hidden" class="form-control " name="status_id" value="{{ isset($shipment->status_id) ? $shipment->status_id :  old('status_id') }}">
 

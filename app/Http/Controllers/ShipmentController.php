@@ -184,7 +184,7 @@ class ShipmentController extends Controller
                 // inser/edit data
                 $shipment_data = [
                     'tracking_number'           =>  $traking_number,
-                    'reference'                 =>  $request->input('reference'),
+                    'reference'                 =>  $request->input('reference') ? $request->input('reference')  : $traking_number,
                     'agent_id'                  =>  $request->input('agent_id'),
                     'status_id'                 =>  $status_id ,
                     'currency_id'               =>  $request->input('currency_id'),
