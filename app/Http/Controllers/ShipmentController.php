@@ -125,7 +125,7 @@ class ShipmentController extends Controller
 
       
 
-        $data['shipments'] = $shipments->paginate(20);
+        $data['shipments'] = $shipments->paginate(15);
         if($request->get('manifest') != null){
             $arr = array();
 
