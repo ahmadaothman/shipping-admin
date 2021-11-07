@@ -13,7 +13,7 @@ use App\Models\Region;
 use App\Models\Setting;
 use App\Models\User;
 
-ini_set('memory_limit','1024M');
+ini_set('memory_limit','2048M');
 
 class Shipment extends Model
 {
