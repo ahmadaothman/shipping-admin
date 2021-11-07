@@ -318,8 +318,7 @@
                                         <div class="dropdown-menu dropdown-menu-right">
                                           <a class="dropdown-item" href="{{ route('ShipmentA4Print',['id'=>$shipment->id]) }}" target="_blank"><i class="icon-copy fa fa-print" aria-hidden="true"></i>  Print</a>
                                           <a class="dropdown-item" href="{{ route('editShipment',array_merge(Request::all(),['id'=>$shipment->id])) }}"><i class="icon-copy fa fa-edit" aria-hidden="true"></i>  Edit</a>
-                                          <div class="dropdown-divider"></div>
-                                          <a class="dropdown-item" href="#"><i class="icon-copy fa fa-minus-square-o" aria-hidden="true"></i>  Cancel</a>
+
                                         </div>
                                     </div>
                                 </td>

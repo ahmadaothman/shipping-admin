@@ -140,6 +140,7 @@ class ShipmentController extends Controller
     public function shipmentForm(Request $request){
         $data = array();
  
+        $data['user'] = User::where('id',Auth::id())->first();
         try{
            /* $ip = file_get_contents('https://api.ipify.org');
             $location = Location::get($ip);*/
@@ -212,7 +213,6 @@ class ShipmentController extends Controller
                     'customer_comment'          =>  $request->input('customer_comment'),
                     'agent_comment'             =>  $request->input('agent_comment'),
                     'weight'                    =>  $request->input('weight'),   
-
                 ];
                 
                
@@ -522,6 +522,13 @@ class ShipmentController extends Controller
             'status_id'     =>  16,
             'comment'       =>  'Shipment Cancelled' 
         ]);
+
+    }
+
+    public function removeShipment(Request $request){
+
+        Shipment::where('id',$request->input('shipment_id'))->delete();
+        return redirect(route('shipments',$request->all()))->with('status', '<strong>Success:</strong> Shipment removed!');
 
     }
 

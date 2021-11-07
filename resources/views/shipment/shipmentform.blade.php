@@ -16,6 +16,7 @@
                         </ol>
                     </nav>
                 </div>
+      
                 <div class="col-md-6 col-sm-12 text-right">
                     @if(!empty($id))
                     <div class="dropdown">
@@ -26,6 +27,12 @@
                             <a class="dropdown-item" href="{{ route('ShipmentA4Print',['id'=>$id]) }}" target="_blank"><i class="icon-copy fa fa-print" aria-hidden="true"></i> Print</a>
                             
                             <a class="dropdown-item" data-toggle="modal" data-target="#cancel_modal"><i class="icon-copy fa fa-trash" aria-hidden="true"></i> Cancel Shipment</a>
+                            @if($user->user_type_id == 1)
+                                <div class="dropdown-divider"></div>
+
+                                <a class="dropdown-item text-danger" data-toggle="modal" data-target="#remove_modal"><i class="icon-copy fa fa-trash" aria-hidden="true"></i> Remove Shipment</a>
+
+                            @endif
                         </div>
                     </div>
                     @endif
@@ -441,6 +448,12 @@
             <input name="shipment_id" type="hidden" value="{{ $id }}" />
         </form>
 
+        <!-- cancel shipment form -->
+        <form id="remove_form"  action="{{ route('removeShipment') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <input name="shipment_id" type="hidden" value="{{ $id }}" />
+        </form>
+
         <!-- Confirm cancel modal -->
         <div class="modal fade" id="cancel_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -457,6 +470,27 @@
                 <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
                 <button type="button" class="btn btn-danger" onclick="$('#cancel_form').submit()">Yes</button>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <!-- Confirm remove modal -->
+        <div class="modal fade" id="remove_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Remove Shipment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure remove this shipment?
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-danger" onclick="$('#remove_form').submit()">Yes</button>
                 </div>
             </div>
             </div>

@@ -10,6 +10,7 @@ use App\Models\ShipmentStatusGroup;
 use App\Models\Agent;
 use App\Models\Invoice;
 use App\Models\InvoiceShipments;
+use App\Models\User;
 
 class InvoiceController extends Controller
 {
@@ -24,6 +25,7 @@ class InvoiceController extends Controller
     private function user(){
        return DB::table('users')->where('id',Auth::id())->first();
     }
+
     public function list(Request $request){
         if(!in_array($this->user()->user_type_id,$this->allowed_users)){
          
@@ -34,7 +36,6 @@ class InvoiceController extends Controller
 
         $invoices =  Invoice::orderBy('id');
   
-        
         $invoices->skip(0)->take(2);
         
         $data['invoices'] = $invoices->paginate(50);
@@ -44,6 +45,7 @@ class InvoiceController extends Controller
     }
 
     public function generate(Request $request){
+
         if(!in_array($this->user()->user_type_id,$this->allowed_users)){
          
             return view('no_permission');
@@ -58,7 +60,12 @@ class InvoiceController extends Controller
             $data['agent'] = $agent->name;
             $data['agent_id'] = $agent->id;
 
-            $shipments = Shipment::where('agent_id',$request->get('agent_id'))->where('status_id','<',19)->get();
+            $shipments = Shipment::where('agent_id',$request->get('agent_id'))
+            ->where('status_id','<',19)
+            ->where('status_id','!=',14)
+            ->where('status_id','!=',15)
+            ->where('status_id','!=',16)
+            ->get();
 
             $data['shipments'] = $shipments;
 
@@ -117,6 +124,8 @@ class InvoiceController extends Controller
     public function form(Request $request){
         $data = array();
 
+        $data['user'] = User::where('id',Auth::id())->first();
+     
         $invoice = Invoice::where('id',$request->get('id'))->first();
         $shipments = InvoiceShipments::where('invoice_id',$request->get('id'))->get();
         
@@ -236,6 +245,26 @@ class InvoiceController extends Controller
             ]);
         }
 
+    }
+
+    public function remove(Request $request){
+        $data = array();
+
+        $invoice = Invoice::where('id',$request->get('id'))->first();
+        $shipments = InvoiceShipments::where('invoice_id',$request->get('id'))->get();
+
+
+        foreach($shipments as $shipment){
+            Shipment::where('id',$shipment->Shipment->id)->update(['status_id'=>17]);
+            DB::table('shipment_history')->insert([
+                'user_id'       =>  Auth::id(),
+                'shipment_id'   =>  $shipment->Shipment->id,
+                'status_id'     =>  17,
+                'comment'       =>  'Invoice Cancelled'
+            ]);
+        }
+
+        Invoice::where('id',$request->get('id'))->delete();
     }
     
 

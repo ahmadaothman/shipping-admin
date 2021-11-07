@@ -29,12 +29,19 @@
         <input type="hidden" name="invoice_id" value="{{ $invoice->id }}" />
 
         <div class="row bg-white bordered m-1 p-4">
-            <div class="col-md-8"></div>
+            <div class="col-md-6"></div>
             <div class="col-md-2">
                 <button type="button" class="btn btn-success w-100" data-toggle="modal" data-target="#mark_as_paid_modal"><i class="icon-copy fa fa-check" aria-hidden="true"></i> Mark as Paid</button>
             </div>
             <div class="col-md-2">
                 <button type="button" class="btn btn-danger w-100" data-toggle="modal" data-target="#cancel_invoice_modal"><i class="icon-copy fa fa-close" aria-hidden="true"></i> Cancel</button>
+            </div>
+            <div class="col-md-2">
+                @if($user->user_type_id == 1)
+                <button type="button" class="btn btn-danger w-100" data-toggle="modal" data-target="#remove_invoice_modal"><i class="icon-copy fa fa-trash" aria-hidden="true"></i> Remove</button>
+                @else
+                <button type="button" class="btn btn-danger w-100" disabled><i class="icon-copy fa fa-trash" aria-hidden="true"></i> Remove</button>
+                @endif
             </div>
         </div>
         <table class="table table-sm table-striped table-hover bg-white m-1 mb-20" style="margin-bottom: 30px">
@@ -152,6 +159,27 @@
     </div>
   </div>
 
+   <!--Remove Modal -->
+   <div class="modal fade" id="remove_invoice_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Remove Invoice</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          do you want to remove invoice?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-danger" onclick="removeInvoice()">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 <script type="text/javascript">
 function markInvoiceAsPaid(){
     $.ajax({
@@ -170,6 +198,19 @@ function cancelInvoice(){
     $.ajax({
         type:'GET',
         url: "{{ route('cancelInvoice') }}",
+        data: {
+            id:$('input[name="invoice_id"]').val()
+        },
+        success:function(){
+            location.href = "{{ route('invoices') }}"
+        }
+    })
+}
+
+function removeInvoice(){
+    $.ajax({
+        type:'GET',
+        url: "{{ route('removeInvoice') }}",
         data: {
             id:$('input[name="invoice_id"]').val()
         },

@@ -67,6 +67,9 @@ Route::post('/shipments/add', [ShipmentController::class, 'ShipmentForm'])->name
 Route::get('/shipments/edit', [ShipmentController::class, 'ShipmentForm'])->name('editShipment');
 Route::post('/shipments/edit', [ShipmentController::class, 'ShipmentForm'])->name('editShipment');
 Route::post('/shipments/remove', [ShipmentController::class, 'remove'])->name('removeShipments');
+
+Route::post('/shipments/removeShipment', [ShipmentController::class, 'removeShipment'])->name('removeShipment');
+
 Route::get('/shipments/states', [ShipmentController::class, 'states'])->name('shippingCountryStates');
 Route::get('/shipments/searchagents', [ShipmentController::class, 'searchAgent'])->name('shipmentSearchAgent');
 Route::post('/shipments/importexcel', [ShipmentController::class, 'importExcel'])->name('importShipmentsExcel');
@@ -86,6 +89,7 @@ Route::post('/invoice', [InvoiceController::class, 'form'])->name('invoice');
 Route::get('/invoice/print', [InvoiceController::class, 'print'])->name('printInvoice');
 Route::get('/invoice/pay', [InvoiceController::class, 'pay'])->name('payInvoice');
 Route::get('/invoice/cancel', [InvoiceController::class, 'cancel'])->name('cancelInvoice');
+Route::get('/invoice/remove', [InvoiceController::class, 'remove'])->name('removeInvoice');
 
 // setting
 Route::get('/setting', [SettingController::class, 'index'])->name('setting');
