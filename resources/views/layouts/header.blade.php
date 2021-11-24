@@ -3,7 +3,7 @@
 		<div class="header-right">
 			<div class="brand-logo">
 				<a href="{{ url('/') }}">
-					<img src="{{ asset('vendors/images/logo.png') }}" alt="" class="mobile-logo">
+					KGSL
 				</a>
 			</div>
 			<div class="menu-icon">
