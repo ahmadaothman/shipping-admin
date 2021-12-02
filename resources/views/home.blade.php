@@ -3,7 +3,26 @@
 @section('content')
 <div class="pd-ltr-20 xs-pd-20-10">
     <div class="row clearfix progress-box">
+        @foreach ($statuses as $status)
         <div class="col-lg-3 col-md-6 col-sm-12 mb-30">
+            <div class="bg-white pd-20 box-shadow border-radius-5 height-100-p">
+                <div class="project-info clearfix">
+                    <div class="project-info-left">
+                        <div class="icon box-shadow {{ $status->color }} text-white">
+                            <i class="icon-copy fa fa-truck" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="project-info-right">
+                        <span class="no text-blue weight-500 font-24">{{ $status->count_shipments }}</span>
+                        <p class="weight-400 font-18">{{ $status->status_group_name }}</p>
+                    </div>
+                </div>
+             
+            </div>
+        </div>
+        @endforeach
+        <hr>
+        <!--<div class="col-lg-3 col-md-6 col-sm-12 mb-30">
             <div class="bg-white pd-20 box-shadow border-radius-5 height-100-p">
                 <div class="project-info clearfix">
                     <div class="project-info-left">
@@ -66,7 +85,7 @@
                 </div>
            
             </div>
-        </div>
+        </div>-->
     </div>
 </div>
 @endsection

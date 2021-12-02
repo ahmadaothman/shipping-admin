@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use PragmaRX\Countries\Package\Countries;
+use App\Models\Shipment;
+use App\Models\ShipmentStatusGroup;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -20,7 +23,15 @@ class HomeController extends Controller
    
     public function index()
     {
-        return view('home');
+        $shipment_status = DB::select("SELECT ssg.name as status_group_name,ssg.color as color,COUNT(s.id) as count_shipments FROM shipment s
+        LEFT JOIN shipment_status ss ON ss.id=s.status_id
+        LEFT JOIN shipment_status_group ssg ON ssg.id=ss.shipment_status_group_id
+        GROUP BY ssg.name,ssg.color");
+     
+        $data = array();
+        $data['statuses'] = $shipment_status;
+
+        return view('home',$data);
     }
 
     public function statistics(){
