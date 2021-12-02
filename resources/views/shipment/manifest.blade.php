@@ -20,7 +20,7 @@
                     <th>Note</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="sortable">
                 
                 @foreach ($shipments as $shipment)
                     <tr>
@@ -53,5 +53,14 @@
                 @endforeach
             </tbody>
         </table>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+
+        <script type="text/javascript">
+            $( function() {
+                $( "#sortable" ).sortable();
+            } );
+
+        </script>
     </body>
 </html>
