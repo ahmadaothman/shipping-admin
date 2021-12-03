@@ -87,5 +87,8 @@
             </div>
         </div>-->
     </div>
+    <hr>
+    <div class="row clearfix progress-box">
+    </div>
 </div>
 @endsection
