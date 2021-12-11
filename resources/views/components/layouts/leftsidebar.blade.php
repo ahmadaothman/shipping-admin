@@ -65,6 +65,12 @@
                         <i class="icon-copy fa fa-dollar" aria-hidden="true"></i></i><span class="mtext">Invoices</span>
                     </a>
                 </li>
+                  <!--Expenses-->
+                <li class="d-none">
+                    <a href="/expenses" class="dropdown-toggle no-arrow">
+                        <i class="icon-copy fa fa-money" aria-hidden="true"></i></i><span class="mtext">Expenses</span>
+                    </a>
+                </li>
                 <!--reports-->
                 <li class="dropdown">
                     <a href="javascript:;" class="dropdown-toggle">

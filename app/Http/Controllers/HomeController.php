@@ -23,12 +23,13 @@ class HomeController extends Controller
    
     public function index()
     {
-        $shipment_status = DB::select("SELECT ssg.name as status_group_name,ssg.color as color,COUNT(s.id) as count_shipments FROM shipment s
+        $shipment_status = DB::select("SELECT ssg.name as status_group_name,ssg.color as color,ssg.id as id,COUNT(s.id) as count_shipments FROM shipment s
         LEFT JOIN shipment_status ss ON ss.id=s.status_id
         LEFT JOIN shipment_status_group ssg ON ssg.id=ss.shipment_status_group_id
-        GROUP BY ssg.name,ssg.color");
+        GROUP BY ssg.name,ssg.color,ssg.id");
      
         $data = array();
+
         $data['statuses'] = $shipment_status;
 
         return view('home',$data);

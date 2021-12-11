@@ -14,6 +14,7 @@
                     <th class="text-center">ID</th>
                     <th>Agent</th>
                     <th>Customer</th>
+                    <th>Amount</th>
                     <th>Location</th>
                     <th>Directions</th>
                     <th>Comment</th>
@@ -36,6 +37,9 @@
                         <td class="p-2 align-middle">
                             {{ $shipment->customer_name }}<br>
                             <strong>{{ $shipment->customer_telephone }}</strong><br>
+                        </td>
+                        <td class="p-3 align-middle">
+                           {{ $shipment->Currency->left_symbole }}{{ number_format($shipment->amount) }}{{ $shipment->Currency->right_symbole }}
                         </td>
                         <td class="p-3 align-middle">
                             {{ $shipment->customer_country }}<br>

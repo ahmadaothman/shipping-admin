@@ -11,7 +11,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\GeoLocationController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\SettingController;
-
+use App\Http\Controllers\ExpensesController;
 
 Route::get('get-address-from-ip',
 [GeoLocationController::class, 'index']);
@@ -94,3 +94,11 @@ Route::get('/invoice/remove', [InvoiceController::class, 'remove'])->name('remov
 // setting
 Route::get('/setting', [SettingController::class, 'index'])->name('setting');
 Route::post('/setting', [SettingController::class, 'index'])->name('setting');
+
+// Expenses
+Route::get('/expenses', [ExpensesController::class, 'expensesList'])->name('expenses');
+Route::get('/expenses/add', [ExpensesController::class, 'expensesForm'])->name('addExpense');
+Route::post('/expenses/add', [ExpensesController::class, 'expensesForm'])->name('addExpense');
+Route::get('/expenses/edit', [ExpensesController::class, 'expensesForm'])->name('editExpense');
+Route::post('/expenses/edit', [ExpensesController::class, 'expensesForm'])->name('editExpense');
+Route::post('/expenses/remove', [ExpensesController::class, 'remove'])->name('removeExpenses');
