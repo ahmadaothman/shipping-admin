@@ -41,6 +41,16 @@ class ShipmentController extends Controller
                     'driver_id'        =>  $request->input('drivers'),
                     'updated_at'     =>  date("Y-m-d H:i:s")
                 ]);
+                $shipment_status = ShipmentStatus::where('id',$request->input('shipment_status'))->first();
+
+                DB::table('shipment_history')->insert(
+                    [
+                        'user_id'       => Auth::id(),
+                        'shipment_id'   => $id,
+                        'status_id'     => $request->input('shipment_status'),
+                        'comment'       => $shipment_status->name
+                    ]
+                );
             }
            }
         }

@@ -12,6 +12,7 @@ use App\Http\Controllers\GeoLocationController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ExpensesController;
+use App\Http\Controllers\TrackingController;
 
 Route::get('get-address-from-ip',
 [GeoLocationController::class, 'index']);
@@ -102,3 +103,6 @@ Route::post('/expenses/add', [ExpensesController::class, 'expensesForm'])->name(
 Route::get('/expenses/edit', [ExpensesController::class, 'expensesForm'])->name('editExpense');
 Route::post('/expenses/edit', [ExpensesController::class, 'expensesForm'])->name('editExpense');
 Route::post('/expenses/remove', [ExpensesController::class, 'remove'])->name('removeExpenses');
+
+// tracking 
+Route::get('/tracking', [TrackingController::class, 'index'])->name('tracking');
