@@ -76,6 +76,7 @@ Route::get('/shipments/searchagents', [ShipmentController::class, 'searchAgent']
 Route::post('/shipments/importexcel', [ShipmentController::class, 'importExcel'])->name('importShipmentsExcel');
 Route::post('/shipments/confirmExcel', [ShipmentController::class, 'confirmExcel'])->name('confirmShipmentExcel');
 Route::get('/shipments/a4print', [ShipmentController::class, 'a4Print'])->name('ShipmentA4Print');
+Route::get('/shipments/labelPrint', [ShipmentController::class, 'labelPrint'])->name('labelPrint');
 Route::get('/shipments/cities', [ShipmentController::class, 'getCitiesByRegion'])->name('getCitiesByRegion');
 Route::get('/shipments/checkReference', [ShipmentController::class, 'checkAgentReferenceStatus'])->name('check_reference');
 

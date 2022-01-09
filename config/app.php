@@ -176,7 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Stevebauman\Location\LocationServiceProvider::class, //  added by ahmad location by ip
         Maatwebsite\Excel\ExcelServiceProvider::class,
-
+        Barryvdh\DomPDF\ServiceProvider::class,
     ],
 
     /*

@@ -22,7 +22,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
-
+use Dompdf\Dompdf;
 class ShipmentController extends Controller
 {
     public function __construct()
@@ -540,6 +540,29 @@ class ShipmentController extends Controller
         Shipment::where('id',$request->input('shipment_id'))->delete();
         return redirect(route('shipments',$request->all()))->with('status', '<strong>Success:</strong> Shipment removed!');
 
+    }
+
+    public function labelPrint(Request $request){
+
+        $data = array();
+
+        $data['shipment'] = Shipment::where('id',$request->get('id'))->first();
+
+        $customPaper = array(0,0,164.4,113.4);
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml(view('shipment.labelPrint',$data));
+
+        // (Optional) Setup the paper size and orientation
+        $dompdf->setPaper( $customPaper);
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser
+        $dompdf->stream('filename.pdf');
+        
+
+        return view('shipment.labelPrint',$data);
     }
 
 }
