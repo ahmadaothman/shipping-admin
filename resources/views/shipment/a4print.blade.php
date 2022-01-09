@@ -102,7 +102,7 @@
 			<table cellpadding="0" cellspacing="0">
 				<tr>
 					<td colspan="2" style="text-align: center">
-						<img src="{{ asset('/src/images/kgsllogo.png') }}" style="max-height: 70px"/> 
+						<img src="{{ asset('/src/images/kgsllogo.png') }}" style="max-height: 150px"/> 
 					</td>
 
 				</tr>
@@ -180,7 +180,7 @@
             </table>
 		</div>
         <script type="text/javascript">
-            $('#qrcode').qrcode({width: 90,height: 90,text: "{{ $shipment->tracking_number }}"});
+            $('#qrcode').qrcode({width: 90,height: 90,text: "https://kg-sl.com/tracking.html?tracking_number={{ $shipment->tracking_number }}"});
 
         </script>
 	</body>
