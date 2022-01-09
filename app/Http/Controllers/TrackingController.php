@@ -28,9 +28,11 @@ class TrackingController extends Controller
         if($shipment){
             $shipment_history = ShipmentHistory::where('shipment_id',$shipment->id)->get();
         
-      
             $data['success'] = true;
             $data['shipment'] = $shipment;
+            $data['amount'] = $shipment->FormatedAmount;
+            $data['currency_right'] = $shipment->Currency->right_symbole;
+            $data['currency_left'] = $shipment->Currency->left_symbole;
             $data['history'] = $shipment_history;
     
             return $data;
