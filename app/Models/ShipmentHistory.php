@@ -11,7 +11,9 @@ class ShipmentHistory extends Model
     protected $table = 'shipment_history';
 
     protected $appends = array('status');
-
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d',
+    ];
     public function getStatusAttribute(){
         return  ShipmentStatus::where('id',$this->status_id)->first();
     }
