@@ -11,15 +11,16 @@
         </style>
     </head>
     <body>
-      
+        {!! QrCode::generate('Make me into a QrCode!'); !!}
         <table>
             <tr >
                 <td rowspan="4">
                     <div id="qrcode">
-                        <img src="data:image/png;base64, {{ base64_encode(QrCode::format('png')->size(100)->generate('Make me into an QrCode!')) }} ">
                 </td>
             </tr>
             <tr>
+                {!! QrCode::generate('Make me into a QrCode!'); !!}
+
                 <td><small>{{ $shipment->customer_name }}</small></td>
             </tr>
             <tr>

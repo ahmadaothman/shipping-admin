@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Dompdf\Dompdf;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 class ShipmentController extends Controller
 {
     public function __construct()
@@ -550,7 +551,7 @@ class ShipmentController extends Controller
 
         $customPaper = array(0,0,164.4,113.4);
         $dompdf = new Dompdf();
-        $dompdf->loadHtml(view('shipment.labelPrint',$data));
+        $dompdf->loadHtml(QrCode::generate('Make me into a QrCode!'));
 
         // (Optional) Setup the paper size and orientation
         $dompdf->setPaper( $customPaper);
