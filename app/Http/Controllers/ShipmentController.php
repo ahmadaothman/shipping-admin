@@ -546,12 +546,13 @@ class ShipmentController extends Controller
     public function labelPrint(Request $request){
 
         $data = array();
+        $qrcode = base64_encode(QrCode::format('svg')->size(200)->errorCorrection('H')->generate('string'));
 
         $data['shipment'] = Shipment::where('id',$request->get('id'))->first();
-
+        $data['qrcode'] = $qrcode;
         $customPaper = array(0,0,164.4,113.4);
         $dompdf = new Dompdf();
-        $dompdf->loadHtml(QrCode::generate('Make me into a QrCode!'));
+        $dompdf->loadHtml(view('shipment.labelPrint',$data));
 
         // (Optional) Setup the paper size and orientation
         $dompdf->setPaper( $customPaper);
@@ -560,7 +561,7 @@ class ShipmentController extends Controller
         $dompdf->render();
 
         // Output the generated PDF to Browser
-        $dompdf->stream('filename.pdf');
+        $dompdf->stream('filename.pdf', array("Attachment" => false));
         
 
         return view('shipment.labelPrint',$data);
