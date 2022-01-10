@@ -14,6 +14,9 @@
     <body>
       
         <table>
+            <tr>
+                <td colspan="2" style="text-align: center">KGSL</td>
+            </tr>
             <tr >
                 <td >
                     <img style="width: 100px;margin-top:15px" src="data:image/png;base64, {!! $qrcode !!}">
