@@ -32,9 +32,37 @@ class InvoiceController extends Controller
             return view('no_permission');
         }
 
+      
+
         $data = array();
 
+        $data['agents'] =  Agent::get();
+        $data['status'] = array(
+            [
+                'id'    =>'1',
+                'name'  => 'Unpaid'
+            ],
+            [
+                'id'    =>'2',
+                'name'  => 'Paid'
+            ]
+        );
+
         $invoices =  Invoice::orderBy('id');
+
+        if($request->get('filter_agent') != null){
+            $invoices->whereIn('agent_id',explode(",",$request->get('filter_agent')));
+        }
+
+        if($request->get('filter_status') != null){
+            $invoices->whereIn('status_id',explode(",",$request->get('filter_status')));
+        }
+
+        if($request->get('filter_date') != null){
+            $datas = explode(" - ", $request->get('filter_date')); 
+
+            $invoices->whereBetween('created_at',array($datas[0],$datas[1]));
+        }
   
         $invoices->skip(0)->take(2);
         

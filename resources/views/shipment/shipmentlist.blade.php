@@ -480,7 +480,6 @@
 
     function clearFilter(){
         location.href = "{{ route('shipments') }}"
-
     }
 </script>
 <script type="text/javascript">
