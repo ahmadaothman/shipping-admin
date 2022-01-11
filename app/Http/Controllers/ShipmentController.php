@@ -24,6 +24,9 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Dompdf\Dompdf;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Dompdf\Options;
+use Barryvdh\DomPDF\Facade;
+
 class ShipmentController extends Controller
 {
     public function __construct()
@@ -544,14 +547,22 @@ class ShipmentController extends Controller
     }
 
     public function labelPrint(Request $request){
-
+      
         $data = array();
         $qrcode = base64_encode(QrCode::format('svg')->size(200)->errorCorrection('H')->generate('string'));
 
         $data['shipment'] = Shipment::where('id',$request->get('id'))->first();
         $data['qrcode'] = $qrcode;
         $customPaper = array(0,0,164.4,113.4);
-        $dompdf = new Dompdf();
+
+        $options = new Options();
+        $options->set('dpi', 150);
+
+        $options->set('defaultFont', 'custom');
+
+        $dompdf = new Dompdf($options);
+      
+  
         $dompdf->loadHtml(view('shipment.labelPrint',$data));
 
         // (Optional) Setup the paper size and orientation
