@@ -551,22 +551,18 @@ class ShipmentController extends Controller
         $data = array();
         $qrcode = base64_encode(QrCode::format('svg')->size(200)->errorCorrection('H')->generate('string'));
 
+        
         $data['shipment'] = Shipment::where('id',$request->get('id'))->first();
         $data['qrcode'] = $qrcode;
+
         $customPaper = array(0,0,164.4,113.4);
 
-        $options = new Options();
-        $options->set('dpi', 150);
-
-        $options->set('defaultFont', 'custom');
-
-        $dompdf = new Dompdf($options);
+        $dompdf = new Dompdf();
       
-  
         $dompdf->loadHtml(view('shipment.labelPrint',$data));
 
         // (Optional) Setup the paper size and orientation
-        $dompdf->setPaper( $customPaper);
+        $dompdf->setPaper($customPaper);
 
         // Render the HTML as PDF
         $dompdf->render();
