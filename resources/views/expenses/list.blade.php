@@ -16,7 +16,7 @@
                     </nav>
                 </div>
                 <div class="col-md-6 col-sm-12 text-right">
-                    <a type="button" class="btn btn-primary " href="expenses/add"><i class="icon-copy fi-plus"></i> Add Expense</a>
+                    <a type="button" class="btn btn-primary " href="/expenses/add"><i class="icon-copy fi-plus"></i> Add Expense</a>
                     <button id="sa-warning" type="button" class="btn btn-danger" onclick="remove();"><i class="icon-copy fi-trash"></i> Remove</button>
                 </div>
             </div>
