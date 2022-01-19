@@ -123,7 +123,7 @@ class ExpensesController extends Controller
                     'amount'           =>  $request->input('amount'),
                     'currency'         =>  $request->input('currency'),
                     'currency_rate'    =>  $request->input('currency_rate'),
-                    'vat'              =>  $request->input('vat'),
+                    'vat'              =>  $request->input('vat') ? $request->input('vat')  : 1,
                     'note'             =>  $request->input('note') ? $request->input('note') : '',
                     'expense_date'     =>  date("Y-m-d H:i:s", strtotime($request->input('expense_date'))),
                     'user_id'          => auth()->id(),
