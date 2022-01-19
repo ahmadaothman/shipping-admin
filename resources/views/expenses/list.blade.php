@@ -127,9 +127,8 @@
                         @foreach ($expenses->items() as $expense)
                             <tr>
                                 <td class="text-center align-middle">
-                                    @if ($expense['id'] != 1)
                                     <input type="checkbox" name="selected[]" value="{{ $expense['id'] }}" />
-                                    @endif
+                               
                                 </td>
                                 <td class="text-center align-middle">
                                     {{ $expense['id'] }}
