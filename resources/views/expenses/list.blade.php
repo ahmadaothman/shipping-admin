@@ -51,28 +51,42 @@
           
                 <div class="card card-body">
                     <div class="row mb-20">
-                        <!--Filter Name-->
 
-                        <!--<div class="col-sm-3">
-                            <label for="filter_name">Filter Name:</label>
-                            <input type="text" id="filter_name" class="form-control form-control-sm" placeholder="Filter Name" value="{{ app('request')->input('filter_name') }}"/>
+                        <div class="form-group form-group-sm col-md-2">
+                            <small><label for="filter_type">Type</label></small>
+
+                            <div class="d-none">{{ $filter_type = app('request')->input('filter_type')}}</div>
+
+                            <select class="form-control form-control-sm h-50 selectpicker" id="filter_type" >
+                                <option value="-1">--none--</option>
+
+                                @foreach ($expenses_types as $type)
+                                    <option value="{{ $type['id'] }}" {{ $filter_type == $type['id'] ? 'selected' : '' }}>{{ $type['name'] }}</option>
+                                @endforeach
+
+                            </select>
                         </div>
 
-
-                        <div class="col-sm-3">
-                            <label for="filter_city">Filter City:</label>
-                            <input type="text" id="filter_city" class="form-control form-control-sm" placeholder="Filter City" value="{{ app('request')->input('filter_city') }}"/>
+                        <div class="form-group form-group-sm col-md-2">
+                            <small><label for="filter_currency">Currency</label></small>
+                            <div class="d-none">{{ $filter_currency = app('request')->input('filter_currency')}}</div>
+                            <select class="form-control form-control-sm h-50 selectpicker" id="filter_currency" >
+                                <option value="-1">--none--</option>
+                                <option value="lbp" {{ $filter_currency == 'lbp' ? 'selected' : '' }}>LBP</option>
+                                <option value="usd" {{ $filter_currency == 'usd' ? 'selected' : '' }}>USD</option>
+                            </select>
                         </div>
 
-                        <div class="col-sm-3">
-                            <label for="filter_city">Filter Address:</label>
-                            <input type="text" id="filter_address" class="form-control form-control-sm" placeholder="Filter Address" value="{{ app('request')->input('filter_address') }}"/>
+                        <div class="form-group form-group-sm col-md-4">
+                            <small><label for="filter_reference">Reference</label></small>
+                            <input type="text" class="form-control form-control-sm h-50" id="filter_reference"  autocomplete="off" placeholder="Reference" value="{{ app('request')->input('filter_reference')}}">
                         </div>
 
-                        <div class="col-sm-3">
-                            <label for="filter_telephone">Filter Telephone:</label>
-                            <input type="text" id="filter_telephone" class="form-control form-control-sm" placeholder="Filter Telephone" value="{{ app('request')->input('filter_telephone') }}"/>
-                        </div>-->
+                        <div class="form-group form-group-sm col-md-4">
+                            <small><label for="filter_date">Date</label></small>
+                            <input type="text" class="form-control form-control-sm h-50" id="filter_date"  autocomplete="off" placeholder="Date">
+                        </div>
+                        
                         
                         
                     </div>
@@ -80,12 +94,15 @@
                         <button  type="button" id="btn_filter" class="btn btn-info btn-sm"> 
                             <i class="icon-copy fa fa-filter" aria-hidden="true"></i> Filters
                         </button>
+                        <button  type="button" id="btn_clear_filter" class="btn btn-danger btn-sm" onclick="location.href = '{{ route('expenses') }}'"> 
+                            <i class="icon-copy fa fa-filter" aria-hidden="true"></i> Clear Filter
+                        </button>
                     </div>
                 </div>
             </div>
            @csrf
             <div class="row">
-                <table class="table table-striped  table-hover  data-table-export table-xs">
+                <table class="table table-striped  table-hover table-bordered  data-table-export table-xs">
                     <thead>
                         <tr>
                             <th class="table-plus datatable-nosort"><input id="select-all" type="checkbox"/></th>
@@ -95,7 +112,7 @@
                             <th class="table-plus datatable-nosort">Reference</th>
                             <th class="table-plus datatable-nosort">Amount</th>
                             <th class="table-plus datatable-nosort">Currency</th>
-                            <th class="table-plus datatable-nosort">Currency Rate</th>
+                            <th class="table-plus datatable-nosort">Rate</th>
                             <th class="table-plus datatable-nosort">VAT</th>
                             <th class="table-plus datatable-nosort">Note</th>
                             <th class="table-plus datatable-nosort">Date</th>
@@ -118,7 +135,7 @@
                                     {{ $expense['id'] }}
                                 </td>
                                 <td class="align-middle">
-                                    {{ $expense['type'] }}
+                                    {{ $expenses_types[$expense['type']]['name'] }}
                                 </td>
                           
                                 <td class="align-middle">
@@ -150,7 +167,7 @@
                                 </td>
 
                                 <td class="align-middle">
-                                    {{ $expense['date'] }}
+                                    {{ $expense['expense_date'] }}
                                 </td>
                               
                                 <td class="align-middle">
@@ -186,7 +203,49 @@
         <!-- Export Datatable End -->
     </div>
 </div>
+<script type="text/javascript" src="{{ asset('/src/plugins/daterangpicker/js/moment.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/src/plugins/daterangpicker/js/daterangepicker.js') }}"></script>
+<link rel="stylesheet" type="text/css" href="{{ asset('/src/plugins/daterangpicker/css/daterangepicker.css') }}" />
+<script type="text/javascript">
+    var start = moment("2010-01-01","YYYY-MM-DD").format("YYYY-MM-DD");
+    var end = moment();
+    
+    var filter_date = "{{ app('request')->input('filter_date') }}";
+    
+    if(filter_date != "") {
 
+        var dates = filter_date.split(" - ");
+
+        start = moment(dates[0],"YYYY-MM-DD HH:mm").format("YYYY-MM-DD HH:mm");
+        end = moment(dates[1],"YYYY-MM-DD HH:mm").format("YYYY-MM-DD HH:mm");
+
+    }
+        
+    $('#filter_date').daterangepicker({
+        startDate: start,
+        endDate: end,
+        ranges: {
+            'All time': [moment("2010-01-01","YYYY-MM-DD").format("YYYY-MM-DD"), moment()],
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
+        locale:{
+            format: 'YYYY-MM-DD HH:mm',
+            cancelLabel: 'Clear'
+        }
+	});
+
+    $('#filter_date').on('apply.daterangepicker', function(ev, picker) {
+        $(this).val(picker.startDate.format('YYYY-MM-DD HH:mm:ss') + ' - ' + picker.endDate.format('YYYY-MM-DD HH:mm:ss'));
+    });
+
+    $('#filter_date').on('cancel.daterangepicker', function(ev, picker) {
+        $(this).val('');
+    });
+
+</script>
 
 <script type="text/javascript">
     $('#select-all').click(function(event) {   
@@ -231,24 +290,20 @@ $('#btn_filter').on('click',function(){
 
 function filter(){
     var url = '';
-    if($('#filter_name').val() != '' ){
-        url += '&filter_name=' + $('#filter_name').val();
+    if($('#filter_type').val() != '-1' ){
+        url += '&filter_type=' + $('#filter_type').val();
     }
 
-    if($('#filter_telephone').val() != '' ){
-        url += '&filter_telephone=' + $('#filter_telephone').val();
+    if($('#filter_reference').val() != '' ){
+        url += '&filter_reference=' + $('#filter_reference').val();
     }
 
-    if($('#filter_city').val() != '' ){
-        url += '&filter_city=' + $('#filter_city').val();
+    if($('#filter_currency').val() != '-1' ){
+        url += '&filter_currency=' + $('#filter_currency').val();
     }
 
-    if($('#filter_address').val() != '' ){
-        url += '&filter_address=' + $('#filter_address').val();
-    }
-
-    if($('#filter_country').val() != '-1' ){
-        url += '&filter_country=' + $('#filter_country').val();
+    if($('#filter_date').val() != '' ){
+        url += '&filter_date=' + encodeURIComponent($('#filter_date').val());
     }
 
     location.href = "{{ route('expenses',) }}/?" + url

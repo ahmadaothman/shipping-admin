@@ -66,7 +66,7 @@
                     </a>
                 </li>
                   <!--Expenses-->
-                <li class="d-none">
+                <li >
                     <a href="/expenses" class="dropdown-toggle no-arrow">
                         <i class="icon-copy fa fa-money" aria-hidden="true"></i></i><span class="mtext">Expenses</span>
                     </a>

@@ -26,7 +26,7 @@
                     <small>{{ $shipment->customer_name }}</small><br>
                     <small>{{ $shipment->customer_telephone }}</small><br>
                     <p >{{ $shipment->customer_country }}, {{ $shipment->customer_state }}, {{ $shipment->customer_region }}, {{ $shipment->customer_city }}<br />
-                        {{ $shipment->customer_directions }} 
+                        
                         
                         
                     </p>
