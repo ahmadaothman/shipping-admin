@@ -103,7 +103,7 @@
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Currency Rate</label>
                         <div class="col-sm-12 col-md-10">
-                            <input class="form-control" name="currency_rate" type="number" placeholder="Rate" value="{{ isset($expense->currency_rate) ? $expense->currency_rate :  old('currency_rate') ? old('currency_rate') : 1 }}">
+                            <input class="form-control" name="currency_rate" type="number" placeholder="Rate" value="{{ isset($expense->currency_rate) ? $expense->currency_rate :  old('currency_rate')}}">
                             @error('currency_rate')
                                 <span class="text-danger font-weight-bold">* {{ $message }}</span>
                             @enderror
