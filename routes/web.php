@@ -107,3 +107,8 @@ Route::post('/expenses/remove', [ExpensesController::class, 'remove'])->name('re
 
 // tracking 
 Route::get('/tracking', [TrackingController::class, 'index'])->name('tracking');
+
+// charts
+Route::get('/home/shipmentsChart', [HomeController::class, 'getShipmentsByMonthsChart'])->name('shipments_chart');
+
+Route::get('/home/shipmentsRegionChart', [HomeController::class, 'getShipmentsByRegionsChart'])->name('shipments_by_region_chart');

@@ -32,8 +32,66 @@ class HomeController extends Controller
 
         $data['statuses'] = $shipment_status;
 
+        
+
         return view('home',$data);
     }
+
+    public function getShipmentsByMonthsChart(Request $request){
+        $dates = explode(" - ", $request->get('filter_date')); 
+
+        $sql = "select count(*) as shipments_count, 
+        year(`created_at`) as year, 
+        month(`created_at`) as month
+ from shipment WHERE created_at>='" . $dates[0] . "' AND created_at<='" . $dates[1] . "'
+ group by year(`created_at`), month(`created_at`);";
+        
+        $results = DB::select($sql);
+
+        $data = array();
+        $data['name'] = 'Shipments';
+        $data['colorByPoint'] = true;
+
+        $arr = array();
+        foreach($results as $result){
+            $arr[] = array(
+                'name'      =>  date('F', mktime(0, 0, 0, $result->month, 10)),
+                'y'         =>  $result->shipments_count,
+                'drilldown' =>  date('F', mktime(0, 0, 0, $result->month, 10))
+            );
+        }
+
+        $data['data'] = $arr;
+        return $data;
+    }
+
+    public function getShipmentsByRegionsChart(Request $request){
+        $dates = explode(" - ", $request->get('filter_date')); 
+
+        $sql = "select count(*) as shipments_count,customer_region as region
+ from shipment WHERE created_at>='" . $dates[0] . "' AND created_at<='" . $dates[1] . "'
+ group by customer_region;";
+        
+        $results = DB::select($sql);
+
+        $data = array();
+        $data['name'] = 'Shipments';
+        $data['colorByPoint'] = true;
+
+        $arr = array();
+        foreach($results as $result){
+            $arr[] = array(
+                'name'      =>  $result->region,
+                'y'         =>  $result->shipments_count,
+                'drilldown' =>  $result->region
+            );
+        }
+
+        $data['data'] = $arr;
+        return $data;
+    }
+
+    
 
     public function statistics(){
         $countries = new Countries();
