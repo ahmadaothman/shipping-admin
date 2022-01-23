@@ -15,14 +15,13 @@
     <body  style="font-family: 'dejavu sans', sans-serif;">
 
         <table>
-            <tr>
-                <td colspan="2" style="text-align: center">KGSL</td>
-            </tr>
+           
             <tr >
                 <td >
                     <img style="width: 100px;margin-top:5px" src="data:image/png;base64, {!! $qrcode !!}">
                 </td>
                 <td style="font-size: 8px;">
+                    <strong style="width: 100%">KGSL</strong><br>
                     <small>{{ $shipment->customer_name }}</small><br>
                     <small>{{ $shipment->customer_telephone }}</small><br>
                     <p >{{ $shipment->customer_country }}, {{ $shipment->customer_state }}, {{ $shipment->customer_region }}, {{ $shipment->customer_city }}<br />
