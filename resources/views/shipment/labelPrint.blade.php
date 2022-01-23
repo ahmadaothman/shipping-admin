@@ -21,13 +21,13 @@
                     <img style="width: 100px;margin-top:5px" src="data:image/png;base64, {!! $qrcode !!}">
                 </td>
                 <td style="font-size: 8px;text-align:left;padding-left:-10px">
-                    <strong style="width: 100%;margin-left:-15px;">KGSL</strong><br>
-                    <small style="margin-left:-20px;">{{ $shipment->customer_name }}</small><br>
-                    <small style="margin-left:-20px;">{{ $shipment->customer_telephone }}</small><br>
-                    <small style="margin-left:-20px;">{{ $shipment->customer_country }}  </small><br>
+                    <strong style="width: 100%;margin-left:-10px;">KGSL</strong><br>
+                    <small style="margin-left:-10px;">{{ $shipment->customer_name }}</small><br>
+                    <small style="margin-left:-10px;">{{ $shipment->customer_telephone }}</small><br>
+                    <small style="margin-left:-10px;">{{ $shipment->customer_country }}  </small><br>
                   
-                    <small style="margin-left:-20px;">{{ $shipment->customer_state }}</small>
-                    <small style="margin-left:-20px;">{{ $shipment->customer_region }}, {{ $shipment->customer_city }}</small>
+                    <small style="margin-left:-10px;">{{ $shipment->customer_state }}</small>
+                    <small style="margin-left:-10px;">{{ $shipment->customer_region }}, {{ $shipment->customer_city }}</small>
                     </td>
             </tr>
           
