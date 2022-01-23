@@ -596,7 +596,7 @@ class ShipmentController extends Controller
                     Mail::send('email.template', $data, function (\Illuminate\Mail\Message $message) use ($data)
                     {
                         /* "Required" (It's self explaining ;)) */
-                        $message->to('ahmadaothman96@gmail.com'/*$data['email']*/, 'Customer');
+                        $message->to($data['email'], 'Customer');
                         
                         $message->subject('Shipment');
                     } );
