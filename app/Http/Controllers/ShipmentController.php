@@ -609,21 +609,171 @@ class ShipmentController extends Controller
     }
 
     public function smsShipments(Request $request){
-
+        $sms_content = $request->input('content');
+      
         if($request->method() == "POST"){
             if($request->input('selected')){
+                $numbers_array = array();
                 foreach($request->input('selected') as $id){
 
                     $shipment = Shipment::where('id',$id)->first();
                     
-                    $sms_content = $request->input('content');
 
                     $data = array();
 
                     $data['content'] = $sms_content;
                     $data['telephone'] = $shipment->customer_telephone;
+                  
+                    $numbers_array[] = $shipment->customer_telephone;
+                 
                 }
+                $this->send_sms($numbers_array,$sms_content,$this->contains_arabic($sms_content));
             }
         }
+    }
+
+    public	function valide_code($numb){
+            
+        // 961 
+        $v_3 = substr($numb, 0, 3); 
+        $v_3i = substr($numb, 3);
+        
+        // +961 , 0961 , 9610
+        $v_4 = substr($numb, 0, 4); 
+        $v_4i = substr($numb, 4);
+        
+        //00961, +9610, 09610  
+        $v_5 = substr($numb, 0, 5);
+        $v_5i = substr($numb, 5);
+        
+        //009610 
+        $v_6 = substr($numb, 0, 6);
+        $v_6i = substr($numb, 6);
+        
+        
+        if(	$v_6 == "009610" ) {
+            return $this->valide_city($v_6i);
+        }
+        
+        if(	$v_5 == "00961" or $v_5 == "+9610" or $v_5 == "09610" ) {
+            return $this->valide_city($v_5i);
+            
+        }		
+            
+        if(	$v_4 == "+961" or $v_4 == "0961" or $v_4 == "9610"  ) {
+            return $this->valide_city($v_4i);
+        }
+        
+        if(	$v_3 == "961" ) {
+            return $this->valide_city($v_3i);		
+        }
+
+        return false; 
+            
+    }
+
+    public	function valide_city($numb){
+			
+		// iza el ra2m aw fadlet el 961 8 a7rof f7as iza 03 aw la2 
+		if(  strlen($numb) == 8  ){
+			$v_2 = substr($numb, 0, 2);
+			
+			if( $v_2 == "03" ){
+				return substr($numb, 1);
+			}
+			
+			if( $v_2 == "70" or $v_2 == "71"  or $v_2 == "76" or $v_2 == "78" or $v_2 == "80" or $v_2 == "81" or $v_2 == "79"  ){
+				return $numb;
+			}
+		}
+		// iza el 03 maktoub deghri aw maktoub sa7 ba3d el 961 deghri 3
+		else if(  strlen($numb) == 7  ){
+			$v_1 = substr($numb,0,1);
+			
+			if( $v_1 == "3" ){
+				return $numb;
+			}	
+		}
+		
+	}
+
+    public	function validateSMS($numb){
+		$numb = str_replace("/","",$numb);
+		$numb = str_replace(" ","",$numb);
+		$numb = preg_replace("[^0-9+]", "", $numb );
+		 
+		
+		if ( strlen($numb) > 8 ){
+			$pointer = $this->valide_code($numb);
+			if( $pointer != false and $pointer != ""){
+				return "961".$this->valide_code($numb);
+			} 	
+		}	
+		
+		if ( strlen($numb) <= 8 ){
+			$pointer = $this->valide_city($numb);
+			if( $pointer !="" ){
+				return "961".$pointer;		
+			}
+		}
+		
+	}
+
+    public function send_sms ($numbers_array, $msg,$unicode = false){
+		
+		$receivers = array();
+		
+		foreach($numbers_array as $number){
+			$number = $this->validateSMS($number);
+			if($number != ""){
+				array_push($receivers,$number);
+			}
+		}	
+		
+		if(count($receivers) > 0){
+			
+			$receivers = implode(",", $receivers);
+			
+			$link = "http://sms.smartdevision.com/vendorsms/pushsms.aspx?";
+			$link .= "user=kgsl";
+			$link .= "&password=kgsl@1234";
+			$link .= "&msisdn=".$receivers;
+			$link .= "&sid=KGSL";
+			$link .= "&msg=".urlencode($msg);
+			$link .= "&fl=0";
+
+            if($unicode){
+                $link .= '&dc=8';
+            }
+			
+			
+			
+			$curl = curl_init();
+					
+			curl_setopt_array($curl, array(
+			    CURLOPT_RETURNTRANSFER => 1,
+			    CURLOPT_URL => $link,
+			    CURLOPT_USERAGENT => 'ishtari',
+			    CURLOPT_SSL_VERIFYPEER => false,
+				CURLOPT_TIMEOUT_MS => 100,
+				CURLOPT_HEADER	=> 0,
+				CURLOPT_RETURNTRANSFER	=> false,
+				CURLOPT_FORBID_REUSE	=> true,
+				CURLOPT_CONNECTTIMEOUT	=> 1,
+				CURLOPT_DNS_CACHE_TIMEOUT => 10,
+				CURLOPT_FRESH_CONNECT	=> true
+			));
+			
+			$resp = curl_exec($curl);
+			
+			
+			
+			curl_close($curl);	
+		}
+	}
+
+    function contains_arabic($string)
+    {
+        return (preg_match('/\p{Arabic}/u', $string) > 0);
     }
 }
