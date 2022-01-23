@@ -598,17 +598,12 @@ class ShipmentController extends Controller
                         /* "Required" (It's self explaining ;)) */
                         $message->to('ahmadaothman96@gmail.com'/*$data['email']*/, 'Customer');
                         
-                        /* Optional */
-                        $message->from('info@kg-sl.com', 'KGSL | Kamlah Global Shipment & Logistics');
-                        $message->sender('info@kg-sl.com', 'KGSL | Kamlah Global Shipment & Logistics');
-                    
                         $message->subject('Shipment');
                     } );
                 }
             }
         }
 
-        $data = array();
 
         return view('email.template',$data);
     }

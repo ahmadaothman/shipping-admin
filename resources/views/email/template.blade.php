@@ -6,6 +6,7 @@
         </div>
         <hr>
         <div style="margin:35px">
+            {!! $content !!}
         </div>
         <hr>
         <footer>
