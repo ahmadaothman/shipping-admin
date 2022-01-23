@@ -18,7 +18,7 @@
            
             <tr >
                 <td >
-                    <img style="width: 100px;margin-top:5px" src="data:image/png;base64, {!! $qrcode !!}">
+                    <img style="width: 80px;margin-top:5px" src="data:image/png;base64, {!! $qrcode !!}">
                 </td>
                 <td style="font-size: 8px;text-align:left;padding-left:-10px">
                     <strong style="width: 100%;margin-left:-10px;">KGSL</strong><br>
