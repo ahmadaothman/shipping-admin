@@ -551,10 +551,11 @@ class ShipmentController extends Controller
     public function labelPrint(Request $request){
       
         $data = array();
-        $qrcode = base64_encode(QrCode::format('svg')->size(200)->errorCorrection('H')->generate('string'));
+        $data['shipment'] = Shipment::where('id',$request->get('id'))->first();
+
+        $qrcode = base64_encode(QrCode::format('svg')->size(200)->errorCorrection('H')->generate("https://kg-sl.com/tracking.html?tracking_number=".$data['shipment']->tracking_number));
 
         
-        $data['shipment'] = Shipment::where('id',$request->get('id'))->first();
         $data['qrcode'] = $qrcode;
 
         $customPaper = array(0,0,164.4,113.4);
