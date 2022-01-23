@@ -31,7 +31,10 @@
                                 <input type="file" name="excelfile" id="excelfile" class="d-none"  enctype="multipart/form-data" />
                             </form>-->
                             <a  class="dropdown-item" href="{{ route('shipments',array_merge(Request::all(),['manifest'=>true]))}}" target="_blank"><i class="icon-copy fa fa-list-ul" aria-hidden="true"></i> Manifest</a>
-                          
+                            <a class="dropdown-item" data-toggle="modal" data-target="#EmailModal"><i class="icon-copy fa fa-envelope-o" aria-hidden="true"></i> Send Email To Agents</a>
+                            
+                            <a class="dropdown-item" data-toggle="modal" data-target="#SMSModal"><i class="icon-copy fa fa-commenting-o" aria-hidden="true"></i> Send SMS To Customers</a>
+
                         </div>
                     </div>
                 </div>
@@ -341,6 +344,46 @@
                 </div>
 
             </form>
+            <!--Email Model-->
+            <div class="modal fade  bd-example-modal-lg" id="EmailModal" tabindex="-1" role="dialog" aria-labelledby="EmailModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Send Email To Agents</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <textarea id="email_text" name="email_text"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-primary" onclick="sendEmails()"><i class="icon-copy fa fa-envelope-o" aria-hidden="true"></i> Send email</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <!--SMS Model-->
+            <div class="modal fade  bd-example-modal-lg" id="SMSModal" tabindex="-1" role="dialog" aria-labelledby="SMSModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Send SMS To</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <textarea id="sms_text" name="sms_text" class="w-100"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-primary"><i class="icon-copy fa fa-commenting-o" aria-hidden="true"></i> Send SMS</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -348,6 +391,26 @@
 <script type="text/javascript" src="{{ asset('/src/plugins/daterangpicker/js/daterangepicker.js') }}"></script>
 <link rel="stylesheet" type="text/css" href="{{ asset('/src/plugins/daterangpicker/css/daterangepicker.css') }}" />
 
+<script src="//cdn.ckeditor.com/4.17.1/standard/ckeditor.js"></script>
+<script type="text/javascript">
+    makeCkEditor();
+    var theEditor;
+
+    function makeCkEditor(){
+
+
+        CKEDITOR.replace('email_text');
+
+        CKEDITOR.instances.email_text.on("change", function() {
+            theEditor = this.getData()
+        });
+    
+    }
+
+    function getDataFromTheEditor() {
+        return theEditor;
+    }
+</script>
 
 <script type="text/javascript">
     var start = moment("2010-01-01","YYYY-MM-DD").format("YYYY-MM-DD");
@@ -603,6 +666,21 @@
                 $('#filter_city').val(city)
                 $('#filter_city').selectpicker('refresh');
                 
+            }
+        })
+    }
+</script>
+<script type="text/javascript">
+    function sendEmails(){
+        var email_content = typeof getDataFromTheEditor() != 'undefined' ? getDataFromTheEditor() : $('textarea#email_text').val();
+        $.ajax({
+            url:"{{ route('emailShipments') }}",
+            type:'POST',
+            data:
+                $('#form input[type="checkbox"]:checked').serialize() + "&content=" + email_content + "&_token={{ csrf_token() }}"
+            ,
+            success:function(json){
+
             }
         })
     }

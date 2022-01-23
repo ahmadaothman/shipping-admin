@@ -27,6 +27,8 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Dompdf\Options;
 use Barryvdh\DomPDF\Facade;
 
+use Illuminate\Support\Facades\Mail;
+
 class ShipmentController extends Controller
 {
     public function __construct()
@@ -574,4 +576,40 @@ class ShipmentController extends Controller
         return view('shipment.labelPrint',$data);
     }
 
+    public function emailShipments(Request $request){
+
+        if($request->method() == "POST"){
+            if($request->input('selected')){
+                foreach($request->input('selected') as $id){
+
+                    $shipment = Shipment::where('id',$id)->first();
+                    $agent = Agent::where('id',$shipment->agent_id)->first();
+
+                    $email = $agent->email;
+                    
+                    $email_content = $request->input('content');
+
+                    $data = array();
+
+                    $data['content'] = $email_content;
+                    $data['email'] = $email;
+                    Mail::send('email.template', $data, function (\Illuminate\Mail\Message $message) use ($data)
+                    {
+                        /* "Required" (It's self explaining ;)) */
+                        $message->to('ahmadaothman96@gmail.com'/*$data['email']*/, 'Customer');
+                        
+                        /* Optional */
+                        $message->from('info@kg-sl.com', 'KGSL | Kamlah Global Shipment & Logistics');
+                        $message->sender('info@kg-sl.com', 'KGSL | Kamlah Global Shipment & Logistics');
+                    
+                        $message->subject('Shipment');
+                    } );
+                }
+            }
+        }
+
+        $data = array();
+
+        return view('email.template',$data);
+    }
 }
