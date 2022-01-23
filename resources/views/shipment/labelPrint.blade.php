@@ -8,8 +8,8 @@
 
         <style>
         
-            @page { margin: 0px;  }
-            body { margin: 0px;  }
+            @page { margin: 10px;  }
+            body { margin: 10px;  }
         </style>
     </head>
     <body  style="font-family: 'dejavu sans', sans-serif;">
