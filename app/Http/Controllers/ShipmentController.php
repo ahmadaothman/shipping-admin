@@ -607,4 +607,23 @@ class ShipmentController extends Controller
 
         return view('email.template',$data);
     }
+
+    public function smsShipments(Request $request){
+
+        if($request->method() == "POST"){
+            if($request->input('selected')){
+                foreach($request->input('selected') as $id){
+
+                    $shipment = Shipment::where('id',$id)->first();
+                    
+                    $sms_content = $request->input('content');
+
+                    $data = array();
+
+                    $data['content'] = $sms_content;
+                    $data['telephone'] = $shipment->customer_telephone;
+                }
+            }
+        }
+    }
 }

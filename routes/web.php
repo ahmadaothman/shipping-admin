@@ -81,8 +81,9 @@ Route::get('/shipments/cities', [ShipmentController::class, 'getCitiesByRegion']
 Route::get('/shipments/checkReference', [ShipmentController::class, 'checkAgentReferenceStatus'])->name('check_reference');
 
 Route::post('/shipments/cancel', [ShipmentController::class, 'cancel'])->name('cancelShipment');
+
 Route::post('/shipments/email', [ShipmentController::class, 'emailShipments'])->name('emailShipments');
-Route::get('/shipments/email', [ShipmentController::class, 'emailShipments'])->name('emailShipments');
+Route::post('/shipments/sms', [ShipmentController::class, 'smsShipments'])->name('smsShipments');
 
 // invoices
 Route::get('/invoices', [InvoiceController::class, 'list'])->name('invoices');

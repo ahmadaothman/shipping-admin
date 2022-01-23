@@ -385,7 +385,11 @@
                       <textarea id="sms_text" name="sms_text" class="w-100"></textarea>
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-primary"><i class="icon-copy fa fa-commenting-o" aria-hidden="true"></i> Send SMS</button>
+                      <button type="button" id="send_sms_button" class="btn btn-primary" onclick="sendSMS()"><i class="icon-copy fa fa-commenting-o" aria-hidden="true"></i> Send SMS</button>
+                      <button id="send_sms_loader" class="btn btn-primary" type="button" disabled>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Loading...
+                      </button>
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                   </div>
@@ -701,6 +705,33 @@
                 $('#send_email_loader').hide();
 
                 $('#EmailModal').modal('hide');
+            }
+        })
+    }
+
+    $('#send_sms_loader').hide();
+    function sendSMS(){
+        $('#send_sms_button').hide();
+        $('#send_sms_loader').show();
+        var sms_content = $('textarea#sms_text').val();
+        $.ajax({
+            url:"{{ route('smsShipments') }}",
+            type:'POST',
+            data:
+                $('#form input[type="checkbox"]:checked').serialize() + "&content=" + sms_content + "&_token={{ csrf_token() }}"
+            ,
+            success:function(json){
+                $('#send_sms_button').show();
+                $('#send_sms_loader').hide();
+
+                $('#SMSModal').modal('hide');
+
+            },
+            error: function (request, status, error) {
+                $('#send_sms_button').show();
+                $('#send_sms_loader').hide();
+
+                $('#SMSModal').modal('hide');
             }
         })
     }
