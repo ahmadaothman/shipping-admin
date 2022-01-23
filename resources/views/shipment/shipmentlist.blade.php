@@ -358,8 +358,15 @@
                       <textarea id="email_text" name="email_text"></textarea>
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-primary" onclick="sendEmails()"><i class="icon-copy fa fa-envelope-o" aria-hidden="true"></i> Send email</button>
+                      <button type="button" id="send_email_button" class="btn btn-primary" onclick="sendEmails()"><i class="icon-copy fa fa-envelope-o" aria-hidden="true"></i> Send email</button>
+                      
+                      <button id="send_email_loader" class="btn btn-primary" type="button" disabled>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Loading...
+                      </button>
+
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      
                     </div>
                   </div>
                 </div>
@@ -671,7 +678,10 @@
     }
 </script>
 <script type="text/javascript">
+    $('#send_email_loader').hide();
     function sendEmails(){
+        $('#send_email_button').hide();
+        $('#send_email_loader').show();
         var email_content = typeof getDataFromTheEditor() != 'undefined' ? getDataFromTheEditor() : $('textarea#email_text').val();
         $.ajax({
             url:"{{ route('emailShipments') }}",
@@ -680,7 +690,17 @@
                 $('#form input[type="checkbox"]:checked').serialize() + "&content=" + email_content + "&_token={{ csrf_token() }}"
             ,
             success:function(json){
+                $('#send_email_button').show();
+                $('#send_email_loader').hide();
 
+                $('#EmailModal').modal('hide');
+
+            },
+            error: function (request, status, error) {
+                $('#send_email_button').show();
+                $('#send_email_loader').hide();
+
+                $('#EmailModal').modal('hide');
             }
         })
     }
