@@ -89,10 +89,8 @@ class InvoiceController extends Controller
             $data['agent_id'] = $agent->id;
 
             $shipments = Shipment::where('agent_id',$request->get('agent_id'))
-            ->where('status_id','<',19)
-            ->where('status_id','!=',14)
-            ->where('status_id','!=',15)
-            ->where('status_id','!=',16)
+            ->whereIn('status_id',array(17,18,19))
+  
             ->get();
 
             $data['shipments'] = $shipments;
