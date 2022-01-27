@@ -16,6 +16,7 @@ use App\Models\ShipmentStatus;
 use App\Models\ShipmentStatusGroup;
 use App\Models\City;
 use App\Models\User;
+use App\Models\Setting;
 
 use App\Imports\ShipmentImport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -67,6 +68,9 @@ class ShipmentController extends Controller
         $data['shipment_status'] = DB::table('shipment_status')
         ->whereIn('id',[1,5,6,8,9,10,11,12,16,17,25,26,27])
         ->get();
+
+        $data['message_text'] = Setting::where('setting','message_text')->first()->value;
+        $data['email_text'] = Setting::where('setting','email_text')->first()->value;
 
 
         $data['drivers'] = User::where('user_type_id',7)->where('status',1)->get();

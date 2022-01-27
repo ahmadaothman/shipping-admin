@@ -355,7 +355,7 @@
                       </button>
                     </div>
                     <div class="modal-body">
-                      <textarea id="email_text" name="email_text"></textarea>
+                      <textarea id="email_text" name="email_text">{{ $email_text }}</textarea>
                     </div>
                     <div class="modal-footer">
                       <button type="button" id="send_email_button" class="btn btn-primary" onclick="sendEmails()"><i class="icon-copy fa fa-envelope-o" aria-hidden="true"></i> Send email</button>
@@ -382,7 +382,7 @@
                       </button>
                     </div>
                     <div class="modal-body">
-                      <textarea id="sms_text" name="sms_text" class="w-100"></textarea>
+                      <textarea id="sms_text" name="sms_text" class="w-100">{{ $message_text }}</textarea>
                     </div>
                     <div class="modal-footer">
                       <button type="button" id="send_sms_button" class="btn btn-primary" onclick="sendSMS()"><i class="icon-copy fa fa-commenting-o" aria-hidden="true"></i> Send SMS</button>
