@@ -8,27 +8,25 @@
 
         <style>
         
-            @page { margin: 10px; }
-            body { margin: 10px; }
+            @page { margin: 8px; }
+            body { margin: 8px; }
         </style>
     </head>
     <body  style="font-family: 'dejavu sans', sans-serif;">
 
         <table>
-           
-            <tr >
+            <tr>
                 <td >
-                    <img style="width: 80px;margin-top:5px" src="data:image/png;base64, {!! $qrcode !!}">
+                    <img style="width: 55px;margin-top:5px" src="data:image/png;base64, {!! $qrcode !!}">
                 </td>
-                <td style="font-size: 8px;text-align:left;padding-left:-10px">
+                <td style="font-size: 12px;text-align:left;padding-left:-10px">
                     <strong style="width: 100%;margin-left:-10px;">KGSL</strong><br>
-                    <small style="margin-left:-10px;">{{ $shipment->customer_name }}</small><br>
-                    <small style="margin-left:-10px;">{{ $shipment->customer_telephone }}</small><br>
-                    <small style="margin-left:-10px;">{{ $shipment->customer_country }}  </small><br>
+                    <small style="margin-left:-10px;text-aligh-left">{{ $shipment->customer_name }}</small><br>
+                    <small style="margin-left:-10px;">{{ $shipment->customer_telephone }}, {{ $shipment->customer_country }} </small><br>
                   
-                    <small style="margin-left:-10px;">{{ $shipment->customer_state }}</small>
+                    <small style="margin-left:-10px;">{{ $shipment->customer_state }}</small><br>
                     <small style="margin-left:-10px;">{{ $shipment->customer_region }}, {{ $shipment->customer_city }}</small>
-                    </td>
+                </td>
             </tr>
           
            
