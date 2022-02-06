@@ -13,6 +13,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ExpensesController;
 use App\Http\Controllers\TrackingController;
+use App\Http\Controllers\ReportsController;
 
 Route::get('get-address-from-ip',
 [GeoLocationController::class, 'index']);
@@ -115,3 +116,5 @@ Route::get('/tracking', [TrackingController::class, 'index'])->name('tracking');
 Route::get('/home/shipmentsChart', [HomeController::class, 'getShipmentsByMonthsChart'])->name('shipments_chart');
 
 Route::get('/home/shipmentsRegionChart', [HomeController::class, 'getShipmentsByRegionsChart'])->name('shipments_by_region_chart');
+// Reports
+Route::get('/reports/revenue', [ReportsController::class, 'revenue'])->name('revenue_report');

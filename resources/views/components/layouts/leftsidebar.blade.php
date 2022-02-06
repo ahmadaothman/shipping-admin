@@ -77,9 +77,8 @@
                         <span class="fa fa-pie-chart"></span><span class="mtext">Reports</span>
                     </a>
                     <ul class="submenu">
-                        <li><a href="highchart.php">Highchart</a></li>
-                        <li><a href="knob-chart.php">jQuery Knob</a></li>
-                        <li><a href="jvectormap.php">jvectormap</a></li>
+                        <li><a href="/reports/revenue">Money Report</a></li>
+              
                     </ul>
                 </li>
               
