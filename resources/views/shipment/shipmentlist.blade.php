@@ -283,14 +283,14 @@
                                 <td class="align-middle text-center">
                                     <small>{{ $shipment->agent->name }}</small><br/>
                                     <small>{{ $shipment->agent->website }}</small><br/>
-                                    <small>{{ $shipment->agent->countryFlagImoji }}</small><br/>
+                                    <small></small><br/>
                                 </td>
                                 <td class="align-middle">
                                     <small><strong>{{ $shipment->customer_name }}</strong></small><br/>
                                     <small>{{ $shipment->customer_telephone }}</small><br/>
                                 </td>
                                 <td class="align-middle">
-                                    <small>{{ $shipment->countryFlagImoji }}</small><br/>
+                                    <small></small><br/>
                                     <small>{{ $shipment->customer_state }}, {{ $shipment->customer_region }}</span><br/>
                                     <small>{{ $shipment->customer_city }}</small><br/>
                                     <small>{{ $shipment->zip_code }}</small><br/>

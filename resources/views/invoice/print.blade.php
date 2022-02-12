@@ -7,14 +7,19 @@
   </head>
   <body>
     <main>
-      <h1  class="clearfix"><small><span>Created At</span><br />{{ $invoice->created_at }}</small> INVOICE - {{ $invoice->id }} <small><span></span><br /> </small></h1>
+      <h1  class="clearfix">
+        <small style="margin:10px">{{ $agent->name }}</small>
+         INVOICE - {{ $invoice->id }} <small><span></span><br /> </small>
+        
+         <small><span>Created At</span><br />{{ $invoice->created_at }}</small>
+        </h1>
       <table>
         <thead>
           <tr>
             <th>ID</th>
             
             <th class="service">Trakick Number</th>
-            <th class="desc">Reference</th>
+            <th class="desc">Customer</th>
             <th>Shipment Amount</th>
             <th>Shipping Cost</th>
             <th>Weight Fees</th>
@@ -28,7 +33,11 @@
              <tr>
                 <td>{{ $shipment->Shipment->id}}</td>
                 <td class="service">{{ $shipment->Shipment->tracking_number}}</td>
-                <td class="desc">{{ $shipment->Shipment->reference}}</td>
+                <td class="desc">
+                  <small>
+                  {{ $shipment->Shipment->customer_name }}, {{ $shipment->Shipment->customer_state }}, {{ $shipment->Shipment->customer_region }}<br>
+                  {{ $shipment->Shipment->customer_telephone }}</small>
+                </td>
                 <td class="total">{{  $shipment->Shipment->Currency->left_symbole }} {{ $shipment->Shipment->FormatedAmount}} {{  $shipment->Shipment->Currency->right_symbole }}</td>
 
                 <td class="total">{{ $shipment->shipping_cost }}</td>
@@ -50,6 +59,10 @@
           <tr>
             <td colspan="8" >Due Amount</td>
             <td class="total">{{ $due_amount }}</td>
+          </tr>
+          <tr>
+            <td colspan="8" >Lbp Net Value</td>
+            <td class="total">{{ $net_value }}</td>
           </tr>
         </tbody>
       </table>

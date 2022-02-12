@@ -210,12 +210,15 @@ class InvoiceController extends Controller
         $data = array();
         $invoice = Invoice::where('id',$request->get('id'))->first();
         $shipments = InvoiceShipments::where('invoice_id',$request->get('id'))->get();
+        $agent = Agent::where('id',$invoice->agent_id)->first();
+        $data['agent'] = $agent;
         $data['invoice'] = $invoice;
         $data['shipments'] = $shipments;
 
         $data['total_lbp'] = 0;
         $data['total_usd'] = 0;
         $data['due_amount'] = 0;
+
         foreach($shipments as $shipment){
            
             if($shipment->Shipment->currency_id == "1"){
@@ -227,9 +230,12 @@ class InvoiceController extends Controller
             $data['due_amount'] = $data['due_amount'] + ((double)$shipment->shipping_cost + (double)$shipment->weight_fees + (double)$shipment->service_fees);
         }
 
+        $data['net_value'] = $data['total_lbp'] - $data['due_amount'];
+
         $data['total_usd'] =  '$ ' . number_format($data['total_usd'],2);
         $data['total_lbp'] =  number_format($data['total_lbp'],0) . ' L.L';
         $data['due_amount'] = number_format($data['due_amount'],0) . ' L.L';
+        $data['net_value'] = number_format($data['net_value'],0) . ' L.L';
         return view('invoice.print',$data);
     }
 
