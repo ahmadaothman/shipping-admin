@@ -72,13 +72,40 @@
                     <div class="w-100 bg-white pt-4">
                         <h5>Total LBP Expenses</h5>
                         <h4 class="text-danger m-4 pb-4">{{ $sum_lbp_expenses }} L.L</h4>
+                    
                     </div>
                 </div>
                 <div class="col-sm-6 text-center p-2">
                     <div class="w-100 bg-white pt-4">
                         <h5>Total USD Expenses</h5>
-                        <h4 class="text-danger m-4 pb-4">{{ $sum_usd_expenses }} $</h4>
+                        <small class="text-danger  ">{{ $sum_usd_expenses }} $</small>
+                        <h4 class="text-danger m-3 pb-2">{{ $sum_usd_to_lbp_expenses }} L.L</h4>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 text-center p-2">
+                    <div class="w-100 bg-white pt-4">
+                        <h5>Total Income</h5>
+                        <h4 class="text-success m-4 pb-4">{{ number_format($income) }} L.L</h4>
+                    
+                    </div>
+                </div>
+                <div class="col-sm-6 text-center p-2">
+                    <div class="w-100 bg-white pt-4">
+                        <h5>Total Expenses</h5>
+                        <h4 class="text-danger m-4 pb-4">{{ number_format($expenses) }} L.L</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="row bg-white">
+                <div class="col-sm-12 text-center p-2">
+                    <h5>Total</h5>
+                    @if (($income - $expenses) > 0)
+                    <h4 class="text-success m-4 pb-4">{{ number_format(($income - $expenses)) }} L.L</h4>
+                    @else
+                    <h4 class="text-danger m-4 pb-4">{{ number_format(($income - $expenses)) }} L.L</h4>
+                    @endif
                 </div>
             </div>
         </div>

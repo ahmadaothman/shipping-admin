@@ -33,7 +33,10 @@ class ReportsController extends Controller
         $data['weight_fees'] = number_format($invoices_totals->weight_fees);
         $data['service_fees'] = number_format($invoices_totals->service_fees);
 
-        $sql = "SELECT SUM(amount) as sum_amount FROM expenses WHERE currency='lbp'";
+        $data['income'] = $invoices_totals->shipping_cost + $invoices_totals->weight_fees + $invoices_totals->service_fees;
+        $data['expenses'] = 0;
+
+        $sql = "SELECT SUM(amount) as sum_amount FROM expenses WHERE currency='lbp' AND `type`!=3";
 
         if($request->get('filter_date')){
             $datas = explode(" - ", $request->get('filter_date')); 
@@ -43,10 +46,11 @@ class ReportsController extends Controller
         $lbp_expenses = DB::select($sql);
 
         $lbp_expenses = $lbp_expenses[0];
+        $data['expenses'] = $data['expenses'] + $lbp_expenses->sum_amount;
         $data['sum_lbp_expenses'] = number_format($lbp_expenses->sum_amount);
         
 
-        $sql = "SELECT SUM(amount) as sum_amount FROM expenses WHERE currency='usd'";
+        $sql = "SELECT SUM(amount) as sum_amount FROM expenses WHERE currency='usd' AND `type`!=3";
 
         if($request->get('filter_date')){
             $datas = explode(" - ", $request->get('filter_date')); 
@@ -57,6 +61,21 @@ class ReportsController extends Controller
 
         $usd_expenses = $usd_expenses[0];
         $data['sum_usd_expenses'] = number_format($usd_expenses->sum_amount);
+
+        $sql = "SELECT SUM(amount*currency_rate) as sum_amount FROM expenses WHERE currency='usd' AND `type`!=3";
+
+        if($request->get('filter_date')){
+            $datas = explode(" - ", $request->get('filter_date')); 
+            $sql .= " AND created_at >='" . $datas[0] . "' AND created_at <='" . $datas[1] . "'";
+        }
+
+        $usd_to_lbp_expenses = DB::select($sql);
+
+        $usd_to_lbp_expenses = $usd_to_lbp_expenses[0];
+
+        $data['expenses'] = $data['expenses'] + $usd_to_lbp_expenses->sum_amount;
+
+        $data['sum_usd_to_lbp_expenses'] = number_format($usd_to_lbp_expenses->sum_amount);
 
         return view('report.revenue',$data);
 
