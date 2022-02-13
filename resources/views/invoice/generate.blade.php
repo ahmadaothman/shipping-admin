@@ -85,7 +85,7 @@
                         <td class="align-middle">{{ $shipment->Currency->left_symbole }} {{ $shipment->FormatedAmount }} {{ $shipment->Currency->right_symbole }}</td>
                     
                         <td class="align-middle">
-                            <input class="form-control" name="shipments[shipping_cost][{{ $shipment->id }}]" type="number" value="{{ $shipment->ShippingCost }}"/>
+                            <input class="form-control" name="shipments[shipping_cost][{{ $shipment->id }}]" type="number" value="{{ $shipment->shipping_cos_col ? $shipment->shipping_cos_col : $shipment->ShippingCost }}"/>
                         </td>
                         <td class="align-middle">
                             <input class="form-control" name="shipments[weight_fees][{{ $shipment->id }}]" type="number" value="{{ $shipment->WeightFees }}"/>

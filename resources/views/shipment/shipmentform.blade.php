@@ -289,17 +289,23 @@
                     <h5>Builing</h5>
                     <section>
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-2">
                                 <div class="form-group">
                                     <label >Weight :</label>
                                     <input type="number" class="form-control" placeholder="00.00 $" name="weight" value="{{ isset($shipment->weight) ? $shipment->weight :  old('weight') }}">
                                 </div>
                             </div>
 
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <div class="form-group">
                                     <label >Amount :</label>
                                     <input type="number" class="form-control" placeholder="00.00 $" name="amount" value="{{ isset($shipment->amount) ? $shipment->amount :  old('amount') }}">
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label >Shipping Cost :</label>
+                                    <input type="number" class="form-control" placeholder="00.00" name="shipping_cos_col" value="{{ isset($shipment->shipping_cos_col) ? $shipment->shipping_cos_col :  old('shipping_cos_col') }}">
                                 </div>
                             </div>
                             <div class="col-sm-4">

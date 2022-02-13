@@ -35,6 +35,24 @@
             </div>
         @endif
         
+        <div class="row d-none">
+            <div class="col-sm-4 text-center ">
+                <div class="bg-white p-2">
+                    <h4>Internal</h4>
+                </div>
+            </div>
+            <div class="col-sm-4 text-center ">
+                <div class="bg-white p-2">
+                    <h4>External</h4>
+                </div>
+            </div>
+            <div class="col-sm-4 text-center ">
+                <div class="bg-white p-2">
+                    <h4>Assets</h4>
+                </div>
+            </div>
+        </div>
+        </div>
         <form id="from" action="{{ route('removeExpenses') }}" method="POST" class="pd-20 bg-white border-radius-4 box-shadow mb-30">
             <p class="text-right">
                 <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">

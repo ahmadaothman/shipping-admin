@@ -229,6 +229,7 @@ class ShipmentController extends Controller
                     'latitude'                  =>  $request->input('latitude'),
                     'longitude'                 =>  $request->input('longitude'),
                     'amount'                    =>  $request->input('amount') ? $request->input('amount') : 0,
+                    'shipping_cos_col'           =>  $request->input('shipping_cos_col'),
                     'payment_method_id'         =>  $request->input('payment_method_id'),
                     'customer_comment'          =>  $request->input('customer_comment'),
                     'agent_comment'             =>  $request->input('agent_comment'),
