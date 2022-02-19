@@ -548,7 +548,7 @@ class ShipmentController extends Controller
 
     public function removeShipment(Request $request){
 
-        Shipment::where('id',$request->input('shipment_id'))->delete();
+       // Shipment::where('id',$request->input('shipment_id'))->delete();
         return redirect(route('shipments',$request->all()))->with('status', '<strong>Success:</strong> Shipment removed!');
 
     }
