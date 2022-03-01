@@ -192,7 +192,7 @@ class InvoiceController extends Controller
     
                     ]);
     
-                    Shipment::where('id',$id)->update(['status_id'=>19]);
+                  //  Shipment::where('id',$id)->update(['status_id'=>19]);
                 }
              
                 return redirect('invoices')->with('status', 'Success: invoice info updated!');

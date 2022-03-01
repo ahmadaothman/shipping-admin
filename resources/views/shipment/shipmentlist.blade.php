@@ -274,11 +274,21 @@
                                     <strong><small>{{ $shipment->created_at }}</small></strong>
                                 </td>
                                 <td class="align-middle text-center">
+                                    
+
+                                    @if ($shipment->status_id == 19)
+                                    <div class="text-white text-center p-1  rounded {{ $shipment->Status->StatusGroup->color }}" data-toggle="tooltip" data-placement="top" title="{{ $shipment->Status->name }}">
+                                        <small>
+                                            <strong >Awaiting To Paid</strong>
+                                        </small>
+                                    </div>
+                                    @else
                                     <div class="text-white text-center p-1  rounded {{ $shipment->Status->StatusGroup->color }}" data-toggle="tooltip" data-placement="top" title="{{ $shipment->Status->name }}">
                                         <small>
                                             <strong >{{ $shipment->Status->StatusGroup->name }}</strong>
                                         </small>
                                     </div>
+                                    @endif
                                 </td>
                                 <td class="align-middle text-center">
                                     <small>{{ $shipment->agent->name }}</small><br/>
