@@ -14,6 +14,8 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ExpensesController;
 use App\Http\Controllers\TrackingController;
 use App\Http\Controllers\ReportsController;
+use App\Http\Controllers\DriverController;
+
 
 Route::get('get-address-from-ip',
 [GeoLocationController::class, 'index']);
@@ -118,3 +120,6 @@ Route::get('/home/shipmentsChart', [HomeController::class, 'getShipmentsByMonths
 Route::get('/home/shipmentsRegionChart', [HomeController::class, 'getShipmentsByRegionsChart'])->name('shipments_by_region_chart');
 // Reports
 Route::get('/reports/revenue', [ReportsController::class, 'revenue'])->name('revenue_report');
+
+Route::get('/driver', [DriverController::class, 'index'])->name('driver');
+Route::get('/driver/changeStatus', [DriverController::class, 'changeStatus'])->name('change_status');

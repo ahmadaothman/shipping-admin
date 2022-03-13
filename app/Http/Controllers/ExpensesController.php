@@ -11,6 +11,7 @@ class ExpensesController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('check_driver');
     }
 
     public function expensesList(Request $request){

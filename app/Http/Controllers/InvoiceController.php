@@ -19,7 +19,7 @@ class InvoiceController extends Controller
     {
         
         $this->middleware('auth');
-       
+        $this->middleware('check_driver');
     }
 
     private function user(){

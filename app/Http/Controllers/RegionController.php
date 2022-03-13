@@ -12,6 +12,7 @@ class RegionController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('check_driver');
     }
 
     public function list(Request $request){

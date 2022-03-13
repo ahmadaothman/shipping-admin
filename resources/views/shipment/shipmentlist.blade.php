@@ -282,6 +282,12 @@
                                             <strong >Awaiting To Paid</strong>
                                         </small>
                                     </div>
+                                    @elseif($shipment->status_id == 18)
+                                    <div class="text-white text-center p-1  rounded {{ $shipment->Status->StatusGroup->color }}" data-toggle="tooltip" data-placement="top" title="{{ $shipment->Status->name }}">
+                                        <small>
+                                            <strong >Delivered</strong>
+                                        </small>
+                                    </div>
                                     @else
                                     <div class="text-white text-center p-1  rounded {{ $shipment->Status->StatusGroup->color }}" data-toggle="tooltip" data-placement="top" title="{{ $shipment->Status->name }}">
                                         <small>

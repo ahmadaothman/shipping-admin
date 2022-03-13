@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\DB;
 
 class ReportsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('check_driver');
+    }
+
     public function revenue(Request $request){
         $data = array();
         $sql = "SELECT SUM(ins.shipping_cost) AS shipping_cost,SUM(ins.weight_fees) AS weight_fees,SUM(ins.service_fees) AS service_fees
