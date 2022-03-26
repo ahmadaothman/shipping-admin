@@ -113,7 +113,7 @@
                             @endif
 
                             <td class="text-center">{{ $invoice->TotalShipments }}</td>
-                            <td>{{ $invoice->total }}</td>
+                            <td>{{ number_format($invoice->total + $invoice->extra_fees) }}</td>
                             <td>{{ $invoice->comment }}</td>
                             <td>{{ $invoice->created_at }}</td>
                             <td>

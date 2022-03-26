@@ -6,7 +6,13 @@
     <link rel="stylesheet" href="{{ asset('/src/styles/invoice.css') }}" media="all" />
   </head>
   <body>
-    <main>
+    <header>
+      <div style="width: 100%;text-align:center;padding:10px;">
+        <img src="https://kg-sl.com/assets/img/kgsllogo.png" style="max-width: 150px;">
+      </div>
+    </header>
+    <div>
+ 
       <h1  class="clearfix">
         <small style="margin:10px">{{ $agent->name }}</small>
          INVOICE - {{ $invoice->id }} <small><span></span><br /> </small>
@@ -58,8 +64,14 @@
           </tr>
           <tr>
             <td colspan="8" >Due Amount</td>
-            <td class="total">{{ $due_amount }}</td>
+            <td class="total">-{{ $due_amount }}</td>
           </tr>
+          @if (!empty($extra_fees))
+          <tr>
+            <td colspan="8" >{{ $comment}}</td>
+            <td class="total">-{{ $extra_fees }}</td>
+          </tr>
+          @endif
           <tr>
             <td colspan="8" >Lbp Net Value</td>
             <td class="total">{{ $net_value }}</td>
@@ -68,8 +80,8 @@
       </table>
     
   
-    </main>
-    <footer>
+    </div>
+    <footer style="width:100%; text-align:center;padding:15px;">
       Invoice was created on a computer and is valid without the signature and seal.
     </footer>
   </body>

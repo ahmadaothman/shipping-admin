@@ -109,7 +109,6 @@ class InvoiceController extends Controller
                     $total = $total + ($shipping_costs[$id] + $weight_fees[$id] + $service_fees[$id]);
                 }
 
-
                 $invoice_id = Invoice::insertGetId([
                     'agent_id'  =>  $request->input('agent_id'),
                     'status_id' =>  1,
@@ -117,7 +116,6 @@ class InvoiceController extends Controller
                     'total'     =>  $total
                 ]);
 
-            
                 foreach($request->input('selected') as $id){
                     $shipment = Shipment::where('id',$id)->first();
     
@@ -173,7 +171,7 @@ class InvoiceController extends Controller
 
                 $invoice_id = $request->input('invoice_id');
 
-                Invoice::where('id',$invoice_id)->update(['total'=>$total,'comment'=>$request->input('comment') ? $request->input('comment') : " "]);
+                Invoice::where('id',$invoice_id)->update(['total'=>$total,'comment'=>$request->input('comment') ? $request->input('comment') : " ","extra_fees"=>$request->input('extra_fees')]);
 
                 InvoiceShipments::where('invoice_id', $invoice_id)->delete();
 
@@ -189,7 +187,6 @@ class InvoiceController extends Controller
                         'service_fees'          =>  $service_fees[$id],
                         'due_amount'            =>  0,
                         'comment'               =>  $comments[$id] ? $comments[$id] : '',
-    
                     ]);
     
                   //  Shipment::where('id',$id)->update(['status_id'=>19]);
@@ -229,13 +226,16 @@ class InvoiceController extends Controller
             }
             $data['due_amount'] = $data['due_amount'] + ((double)$shipment->shipping_cost + (double)$shipment->weight_fees + (double)$shipment->service_fees);
         }
+        $data['extra_fees'] = $invoice->extra_fees;
+        $data['comment'] = $invoice->comment;
 
-        $data['net_value'] = $data['total_lbp'] - $data['due_amount'];
+        $data['net_value'] = $data['total_lbp'] - ($data['due_amount']+  $data['extra_fees']);
 
         $data['total_usd'] =  '$ ' . number_format($data['total_usd'],2);
         $data['total_lbp'] =  number_format($data['total_lbp'],0) . ' L.L';
         $data['due_amount'] = number_format($data['due_amount'],0) . ' L.L';
         $data['net_value'] = number_format($data['net_value'],0) . ' L.L';
+        $data['extra_fees'] = !empty($data['extra_fees']) ? number_format($data['extra_fees'],0) . ' L.L' : '';
         return view('invoice.print',$data);
     }
 
@@ -297,6 +297,30 @@ class InvoiceController extends Controller
         }
 
         Invoice::where('id',$request->get('id'))->delete();
+    }
+
+    public function getShipment(Request $request){
+        $shipment = Shipment::where('id',$request->get('id'))->orWhere('tracking_number',$request->get('id'))->first();
+
+        $data = array();
+        $data['id'] = $shipment->id;
+        $data['tracking_number'] = $shipment->tracking_number;
+        $data['service_type_name'] = $shipment->ServiceType->name;
+        $data['coutry_flag_imoji'] = $shipment->ServiceType->countryFlagImoji;
+        $data['customer_state'] = $shipment->customer_state;
+        $data['customer_region'] = $shipment->customer_region;
+        $data['customer_city'] = $shipment->customer_city;
+        $data['customer_name'] = $shipment->customer_name;
+        $data['customer_telephone'] = $shipment->customer_telephone;
+        $data['currency_left_symbole'] = $shipment->Currency->left_symbole;
+        $data['formatted_amount'] = $shipment->FormatedAmount;
+        $data['currency_right_symbole'] = $shipment->Currency->right_symbole;
+
+        $data['shipping_cost'] = $shipment->shipping_cos_col ? $shipment->shipping_cos_col : $shipment->ShippingCost;
+        $data['weight_fees'] = $shipment->WeightFees;
+        $data['service_fees'] = $shipment->ServiceFees;
+
+        return $data;
     }
     
 

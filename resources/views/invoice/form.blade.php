@@ -105,7 +105,12 @@
             @if($shipments)
             <tfoot>
                 <tr >
-                    <td colspan="11" class="align-middle">
+                    <td colspan="3">Extra Fees</td>
+                    <td>
+                      <input type="text" placeholder="Invoice Extra Fees" name="extra_fees" class="form-control" value="{{ $invoice->extra_fees }}"/>
+                    </td>
+                    <td colspan="2">Extra Fees Note</td>
+                    <td colspan="5" class="align-middle">
                         <input type="text" placeholder="Invoice Comment" name="comment" class="form-control" value="{{ $invoice->comment }}"/>
                     </td>
                     <td><button type="submit" class="btn btn-success w-100">Save</button></td>
