@@ -39,7 +39,25 @@ class ReportsController extends Controller
         $data['weight_fees'] = number_format($invoices_totals->weight_fees);
         $data['service_fees'] = number_format($invoices_totals->service_fees);
 
-        $data['income'] = $invoices_totals->shipping_cost + $invoices_totals->weight_fees + $invoices_totals->service_fees;
+        $sql = "SELECT SUM(i.extra_fees) as extra_fees FROM invoice i WHERE 1";
+
+        if($request->get('filter_date')){
+            $datas = explode(" - ", $request->get('filter_date')); 
+            $sql .= " AND i.created_at >='" . $datas[0] . "' AND i.created_at <='" . $datas[1] . "'";
+        }
+
+        if($request->get('filter_invoice_status')){
+            $sql .= " AND i.status_id IN (" . $request->get('filter_invoice_status') . ")";
+        }else{
+            $sql .= " AND i.status_id = 2";
+        }
+
+        $invoice =  DB::select($sql);
+        $invoice = $invoice[0];
+
+        $data['extra_fees'] = number_format($invoice->extra_fees);
+
+        $data['income'] = $invoices_totals->shipping_cost + $invoices_totals->weight_fees + $invoices_totals->service_fees + $invoice->extra_fees;
         $data['expenses'] = 0;
 
         $sql = "SELECT SUM(amount) as sum_amount FROM expenses WHERE currency='lbp' AND `type`!=3";

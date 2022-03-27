@@ -47,23 +47,29 @@
                 </div>
             </div>
             <div class="row text-center">
-                <div class="col-sm-4 text-center p-2">
+                <div class="col-sm-3 text-center p-2">
                     <div class="w-100 bg-white pt-4">
                         <h5>Total Shipping Cost</h5>
 
                         <h4 class="text-success m-4 pb-4">{{ $shipping_cost }} L.L</h4>
                     </div>
                 </div>
-                <div class="col-sm-4 text-center p-2">
+                <div class="col-sm-3 text-center p-2">
                     <div class="w-100 bg-white pt-4">
                         <h5>Total Weight Fees</h5>
                         <h4 class="text-success m-4 pb-4">{{ $weight_fees }} L.L</h4>
                     </div>
                 </div>
-                <div class="col-sm-4 text-center p-2">
+                <div class="col-sm-3 text-center p-2">
                     <div class="w-100 bg-white pt-4">
                         <h5>Total Service Fees</h5>
                         <h4 class="text-success m-4 pb-4">{{ $service_fees }} L.L</h4>
+                    </div>
+                </div>
+                <div class="col-sm-3 text-center p-2">
+                    <div class="w-100 bg-white pt-4">
+                        <h5>Total Extra Fees</h5>
+                        <h4 class="text-success m-4 pb-4">{{ $extra_fees }} L.L</h4>
                     </div>
                 </div>
             </div>
