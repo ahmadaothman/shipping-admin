@@ -98,6 +98,10 @@ Route::get('/invoice/print', [InvoiceController::class, 'print'])->name('printIn
 Route::get('/invoice/pay', [InvoiceController::class, 'pay'])->name('payInvoice');
 Route::get('/invoice/cancel', [InvoiceController::class, 'cancel'])->name('cancelInvoice');
 Route::get('/invoice/remove', [InvoiceController::class, 'remove'])->name('removeInvoice');
+Route::get('/invoice/getShipment', [InvoiceController::class, 'getShipment'])->name('getShipmentToInvoice');
+Route::get('/invoice/updateAddShipmentToInvoice', [InvoiceController::class, 'updateAddShipmentToInvoice'])->name('updateAddShipmentToInvoice');
+
+
 
 // setting
 Route::get('/setting', [SettingController::class, 'index'])->name('setting');

@@ -303,24 +303,37 @@ class InvoiceController extends Controller
         $shipment = Shipment::where('id',$request->get('id'))->orWhere('tracking_number',$request->get('id'))->first();
 
         $data = array();
-        $data['id'] = $shipment->id;
-        $data['tracking_number'] = $shipment->tracking_number;
-        $data['service_type_name'] = $shipment->ServiceType->name;
-        $data['coutry_flag_imoji'] = $shipment->ServiceType->countryFlagImoji;
-        $data['customer_state'] = $shipment->customer_state;
-        $data['customer_region'] = $shipment->customer_region;
-        $data['customer_city'] = $shipment->customer_city;
-        $data['customer_name'] = $shipment->customer_name;
-        $data['customer_telephone'] = $shipment->customer_telephone;
-        $data['currency_left_symbole'] = $shipment->Currency->left_symbole;
-        $data['formatted_amount'] = $shipment->FormatedAmount;
-        $data['currency_right_symbole'] = $shipment->Currency->right_symbole;
+        
+        if($shipment){
+            $data['success'] = true;
+            $data['id'] = $shipment->id;
+            $data['tracking_number'] = $shipment->tracking_number;
+            $data['service_type_name'] = $shipment->ServiceType->name;
+            $data['coutry_flag_imoji'] = $shipment->countryFlagImoji;
+            $data['customer_state'] = $shipment->customer_state;
+            $data['customer_region'] = $shipment->customer_region;
+            $data['customer_city'] = $shipment->customer_city;
+            $data['customer_name'] = $shipment->customer_name;
+            $data['customer_telephone'] = $shipment->customer_telephone;
+            $data['currency_left_symbole'] = $shipment->Currency->left_symbole;
+            $data['formatted_amount'] = $shipment->FormatedAmount;
+            $data['currency_right_symbole'] = $shipment->Currency->right_symbole;
+            $data['weight'] = $shipment->weight;
+    
+            $data['shipping_cost'] = $shipment->shipping_cos_col ? $shipment->shipping_cos_col : $shipment->ShippingCost;
+            $data['weight_fees'] = $shipment->WeightFees;
+            $data['service_fees'] = $shipment->ServiceFees;
 
-        $data['shipping_cost'] = $shipment->shipping_cos_col ? $shipment->shipping_cos_col : $shipment->ShippingCost;
-        $data['weight_fees'] = $shipment->WeightFees;
-        $data['service_fees'] = $shipment->ServiceFees;
+        }else{
+            $data['success'] = false;
+            $data['message'] = 'Sorry shipment not found!';
+        }
 
         return $data;
+    }
+
+    public function updateAddShipmentToInvoice(Request $request){
+        Shipment::where('id',$request->get('id'))->update(['status_id'=>19]);
     }
     
 

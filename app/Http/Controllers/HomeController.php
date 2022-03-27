@@ -27,9 +27,21 @@ class HomeController extends Controller
         $shipment_status = DB::select("SELECT ssg.name as status_group_name,ssg.color as color,ssg.id as id,COUNT(s.id) as count_shipments FROM shipment s
         LEFT JOIN shipment_status ss ON ss.id=s.status_id
         LEFT JOIN shipment_status_group ssg ON ssg.id=ss.shipment_status_group_id
+        WHERE s.status_id!=19
         GROUP BY ssg.name,ssg.color,ssg.id");
-     
+
+        $awaiting_to_paid_status = Shipment::where('status_id',19)->count();
+
+
         $data = array();
+
+
+        $data['awaiting_to_paind'] = array(
+            'id'=>19,
+            'status_group_name'=>'Awaiting to paid',
+            'color'=>'',
+            'count_shipments'=>$awaiting_to_paid_status
+        );
 
         $data['statuses'] = $shipment_status;
 

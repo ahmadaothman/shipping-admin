@@ -21,6 +21,22 @@
             </div>
         </a>
         @endforeach
+        <a href="{{ route('shipments',['filter_status'=>$awaiting_to_paind['id'] ]) }}" class="col-lg-3 col-md-6 col-sm-12 mb-30">
+            <div class="bg-white pd-20 box-shadow border-radius-5 height-100-p">
+                <div class="project-info clearfix">
+                    <div class="project-info-left">
+                        <div class="icon box-shadow {{ $awaiting_to_paind['color'] }} text-white">
+                            <i class="icon-copy fa fa-truck" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="project-info-right">
+                        <span class="no text-blue weight-500 font-24">{{ $awaiting_to_paind['count_shipments'] }}</span>
+                        <p class="weight-400 font-18">{{ $awaiting_to_paind['status_group_name'] }}</p>
+                    </div>
+                </div>
+             
+            </div>
+        </a>
         <hr>
         
         <!--<div class="col-lg-3 col-md-6 col-sm-12 mb-30">
