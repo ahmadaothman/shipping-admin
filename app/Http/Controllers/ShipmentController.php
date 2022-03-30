@@ -104,6 +104,7 @@ class ShipmentController extends Controller
         if($request->get('filter_status_group') != null){
             $statuses = ShipmentStatus::whereIn('shipment_status_group_id',explode(",",$request->get('filter_status_group')))->pluck('id')->toArray();
             $shipments->whereIn('status_id',$statuses);
+            $shipments->where('status_id','!=',19);
         }
 
         if($request->get('filter_status') != null){
