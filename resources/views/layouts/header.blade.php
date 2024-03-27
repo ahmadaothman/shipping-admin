@@ -3,7 +3,7 @@
 		<div class="header-right">
 			<div class="brand-logo">
 				<a href="{{ url('/') }}">
-					KGSL
+					Shipping System
 				</a>
 			</div>
 			<div class="menu-icon">

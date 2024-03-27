@@ -20,7 +20,7 @@
                     <img style="width: 55px;margin-top:5px" src="data:image/png;base64, {!! $qrcode !!}">
                 </td>
                 <td style="font-size: 12px;text-align:left;padding-left:-10px">
-                    <strong style="width: 100%;margin-left:-10px;">KGSL</strong><br>
+                    <strong style="width: 100%;margin-left:-10px;">Shipping System</strong><br>
                     <small style="margin-left:-10px;text-aligh-left">{{ $shipment->customer_name }}</small><br>
                     <small style="margin-left:-10px;">{{ $shipment->customer_telephone }}, {{ $shipment->customer_country }} </small><br>
                   

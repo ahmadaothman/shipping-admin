@@ -1,7 +1,7 @@
 <div class="left-side-bar">
     <div class="brand-logo">
         <a href="{{ url('/') }}">
-            <h3>KGSL</h3>
+            <h3>Shipping System</h3>
         </a>
     </div>
     <div class="menu-block customscroll">
