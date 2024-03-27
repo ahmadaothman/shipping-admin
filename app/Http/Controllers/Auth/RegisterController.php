@@ -38,12 +38,12 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        //$this->middleware('guest');
     }
 
     public function showRegistrationForm()
     {
-        return redirect('login');
+       // return redirect('login');
     }
     /**
      * Get a validator for an incoming registration request.
